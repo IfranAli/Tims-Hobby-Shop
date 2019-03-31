@@ -1,0 +1,29 @@
+<div th:switch="${items}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.description}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.stock}"></td>
+                <td><a th:href="@{/edit/{id}(id=${item.id})}">Edit</a></td>
+                <td><a th:href="@{/delete/{id}(id=${item.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/signup">Add a new user</a></p>
+</div>
