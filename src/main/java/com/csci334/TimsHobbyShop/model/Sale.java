@@ -1,6 +1,7 @@
 package com.csci334.TimsHobbyShop.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -34,7 +35,7 @@ public class Sale {
 
     public List<SaleLineItem> getSale_line_items() {return sale_line_items;}
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_customerId")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_customerId") @JsonBackReference
     private Customer customer;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sale", cascade = CascadeType.ALL)

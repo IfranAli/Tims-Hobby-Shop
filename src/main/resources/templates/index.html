@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="template :: header"></head>
+
+
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+
+<h1 th:text="${heading}"></h1>
+
+<div class="container">
+
+    <span th:if="${content}">
+        <div th:replace="@{'views/' + ${content}} :: ${content}"></div>
+    </span>
+    <span th:unless="${content}">
+        <h1>404 not found</h1>
+    </span>
+</div>
+
+<p><span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span></p>
+</body>
+
+
+<div th:replace="template :: footer"></div>
+</html>

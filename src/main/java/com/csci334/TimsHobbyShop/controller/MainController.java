@@ -24,17 +24,40 @@ public class MainController {
     private Sale_Repository sale_repository;
 
     @GetMapping("/test")
-    public String index(Model model) {
-
-        Iterable<Sale> x = sale_repository.findAll();
-
-        model.addAttribute("items", item_repository.findAll());
-
-        return "item";
+    public String test(Model model) {
+        model.addAttribute("title", "DevTest");
+        model.addAttribute("content", "test");
+        return "index";
     }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Customer> getAllCustomer() {
         return customerRepository.findAll();
     }
+
+    @GetMapping(path="/")
+    public String index(Model model) {
+        model.addAttribute("title", "index");
+        return "index";
+    }
+
+    @GetMapping(path="/Catalogue")
+    public String Catalogue(Model model) {
+        model.addAttribute("title", "Catalogue");
+        model.addAttribute("content", "catalogue");
+        return "index";
+    }
+    @GetMapping(path="/Login")
+    public String Login(Model model) {
+        model.addAttribute("title", "Login");
+        model.addAttribute("content", "login");
+        return "index";
+    }
+    @GetMapping(path="/Register")
+    public String Register(Model model) {
+        model.addAttribute("title", "Register");
+        model.addAttribute("content", "register");
+        return "index";
+    }
+
 }

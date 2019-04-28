@@ -1,0 +1,33 @@
+<div th:switch="${sale}" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="sale">
+    <h2 th:case="null">No sale</h2>
+    <div th:case="*">
+        <h2>Sale</h2>
+        <p>
+            ID: <span th:text="${sale.id}"></span> <br>
+            Total: <span th:text="${sale.total}"></span> <br>
+            Status: <span th:text="${sale.status}"></span> <br>
+            Order Date: <span th:text="${sale.orderDate}"></span>
+        </p>
+        <h3>Items</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="saleLine : ${sale.sale_line_items}">
+                <td>
+                    <a th:href="@{/Item/{id}(id=${saleLine.item.id})}" th:text="${saleLine.item.name}"></a>
+                </td>
+                <td th:text="${saleLine.item.description}"></td>
+                <td th:text="${saleLine.item.price}"></td>
+                <td th:text="${saleLine.quantity}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

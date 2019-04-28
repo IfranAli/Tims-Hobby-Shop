@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,31 +29,42 @@ public class CustomerController {
 
     @GetMapping("/sales")
     public String index(Model model) {
-
         Iterable<Sale> x = sale_repository.findAll();
-
         model.addAttribute("items", item_repository.findAll());
-
-        return "item";
+        model.addAttribute("content", "item");
+        return "index";
     }
 
     @RequestMapping(value = "/sales/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Optional<Sale>> findById(@PathVariable(name = "id", value = "id") int id) {
+    public String RenderSalePageById(@PathVariable(name = "id", value = "id") int id, Model model) {
         Optional<Sale> optionalSale = sale_repository.findById(id);
 
         if (optionalSale.isPresent()) {
             Sale sale = optionalSale.get();
+            //List<SaleLineItem> saleLineItems = sale.getSale_line_items();
 
-            List<SaleLineItem> saleLineItems = sale.getSale_line_items();
-            return new ResponseEntity(sale, HttpStatus.OK);
+            // return new ResponseEntity(sale, HttpStatus.OK);
+            model.addAttribute("sale", sale);
+            model.addAttribute("title", "Sale");
+            model.addAttribute("content", "sale");
+            return "index";
         }
 
-        return new ResponseEntity("not found", HttpStatus.NOT_FOUND);
-        //UserDetails userDetail = userService.findByEmail(email);
+        return "index";
     }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Customer> getAllCustomer() {
         return customerRepository.findAll();
+    }
+
+    /* Returns all customers in the database */
+    @GetMapping()
+    public String All_Customers(Model model) {
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
+        model.addAttribute("title", "Catalogue");
+        model.addAttribute("content", "customer");
+        return "index";
     }
 }

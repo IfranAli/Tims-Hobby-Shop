@@ -1,6 +1,7 @@
 package com.csci334.TimsHobbyShop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +25,8 @@ public class Customer {
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
 
+    public List<Sale> getSales() { return sales; }
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Sale> sales;
 }
