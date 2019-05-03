@@ -14,11 +14,11 @@ public class Customer_api {
     @GetMapping(path="/api/customer/add")
     public @ResponseBody
     String addNewUCustomer (@RequestParam String name, @RequestParam String address, @RequestParam String password) {
-        Customer n = new Customer();
-        n.setName(name);
-        n.setAddress(address);
-        n.setPassword(password);
-        customerRepository.save(n);
+		//Customer n = new Customer();
+        //n.setName(name);
+        //n.setAddress(address);
+        //n.setPassword(password);
+        //customerRepository.save(n);
         return "Saved";
     }
 

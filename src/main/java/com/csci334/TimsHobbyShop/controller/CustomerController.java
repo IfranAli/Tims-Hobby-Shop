@@ -60,6 +60,16 @@ public class CustomerController {
 
     /* Returns all customers in the database */
     @GetMapping()
+    public @ResponseBody Customer getAllCusto() {
+		Optional<Customer> o = customerRepository.findById(0);
+		if (o.isPresent()) {
+			return o.get();
+		}
+
+		return null;
+    }
+
+	//@GetMapping()
     public String All_Customers(Model model) {
         Iterable<Customer> customers = customerRepository.findAll();
         model.addAttribute("customers", customers);

@@ -32,4 +32,9 @@ public class Item {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL) @JsonIgnore
     private List<SaleLineItem> sale_line_items;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "suppliedItem", cascade = CascadeType.ALL) 
+	private List<SupplierItem> suppliers;
+
+
 }

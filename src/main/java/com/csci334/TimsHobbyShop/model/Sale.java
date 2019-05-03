@@ -14,6 +14,7 @@ public class Sale {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
+
     private Date order_date;
     private double total;
     private String status;
