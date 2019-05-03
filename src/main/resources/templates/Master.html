@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="Template :: header"></head>
+
+
+<body>
+
+<nav th:replace="Template :: navbar"></nav>
+
+<h1 th:text="${heading}"></h1>
+
+<div class="container">
+
+    <span th:if="${Area}">
+        <h2 th:if="${title}"><span th:text="${title}"></span></h2>
+        <h2 th:unless="${title}"><span>No Title Specified</span></h2>
+        <div th:replace="${Area + '/' + Sub_Page} :: ${Sub_Page}"></div>
+    </span>
+    <span th:unless="${Area}">
+        <h1>404 not found</h1>
+    </span>
+</div>
+
+<p><span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span></p>
+</body>
+
+
+<div th:replace="Template :: footer"></div>
+</html>

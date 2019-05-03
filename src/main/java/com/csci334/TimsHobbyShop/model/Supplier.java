@@ -1,5 +1,6 @@
 package com.csci334.TimsHobbyShop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -28,6 +29,6 @@ public class Supplier{
     public List<SupplierItem> getSupplierItems() { return supplierItems; }
 
     @OneToMany(mappedBy = "itemSupplier", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private List<SupplierItem> supplierItems;
 }

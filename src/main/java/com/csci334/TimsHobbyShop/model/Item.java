@@ -30,6 +30,8 @@ public class Item {
     public int getStock() { return stock; }
     public void setStock(int stock) { this.stock = stock; }
 
+    public List<SupplierItem> getSuppliers() { return suppliers; }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL) @JsonIgnore
     private List<SaleLineItem> sale_line_items;
 

@@ -1,0 +1,38 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Profile">
+    Name: <span th:text="${customer.person.name}"></span><br>
+    Address: <span th:text="${customer.address}"></span><br>
+    Password: <span th:text="${customer.password}"></span><br>
+    CreditLine: <span th:text="${customer.creditline}"></span><br>
+    Balance: <span th:text="${customer.balance}"></span><br>
+    <!--Sales: <span th:text="${sale.orderDate}"></span>-->
+    <!--<span th:text="${sale.orderDate}"></span>-->
+
+    <!--<table class="table">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>Name</th>-->
+            <!--<th>Address</th>-->
+            <!--<th>Password</th>-->
+            <!--<th>Sales</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr th:each="customer : ${customers}">-->
+            <!--<td th:text="${customer.name}"></td>-->
+            <!--<td th:text="${customer.address}"></td>-->
+            <!--<td th:text="${customer.password}"></td>-->
+            <!--<td>-->
+                <!--<ul>-->
+                    <!--<li th:each="sale : ${customer.sales}">-->
+                        <!--<a th:href="@{/Customer/sales/{id}(id=${sale.id})}">-->
+                            <!--<span th:text="${sale.orderDate}"></span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+    <p><a href="/signup">Add a new customer</a></p>
+</div>

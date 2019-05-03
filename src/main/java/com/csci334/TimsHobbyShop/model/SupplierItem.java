@@ -20,7 +20,11 @@ public class SupplierItem{
 
     public Supplier getSupplier() { return itemSupplier; }
 
+    public double getPrice() { return supplier_price; }
+    public void setPrice(double price) { supplier_price = price; }
+
     //@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_SupplierId")
+    @JsonManagedReference
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_SupplierId")
 	private Supplier itemSupplier;
 

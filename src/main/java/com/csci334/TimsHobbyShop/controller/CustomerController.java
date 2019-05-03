@@ -27,54 +27,42 @@ public class CustomerController {
     @Autowired
     private Sale_Repository sale_repository;
 
-    @GetMapping("/sales")
-    public String index(Model model) {
-        Iterable<Sale> x = sale_repository.findAll();
-        model.addAttribute("items", item_repository.findAll());
-        model.addAttribute("content", "item");
-        return "index";
-    }
-
     @RequestMapping(value = "/sales/{id}", method = RequestMethod.GET)
     public String RenderSalePageById(@PathVariable(name = "id", value = "id") int id, Model model) {
         Optional<Sale> optionalSale = sale_repository.findById(id);
 
         if (optionalSale.isPresent()) {
             Sale sale = optionalSale.get();
-            //List<SaleLineItem> saleLineItems = sale.getSale_line_items();
 
-            // return new ResponseEntity(sale, HttpStatus.OK);
             model.addAttribute("sale", sale);
             model.addAttribute("title", "Sale");
-            model.addAttribute("content", "sale");
-            return "index";
+            model.addAttribute("Area", "Sale");
+            model.addAttribute("Sub_Page", "Sale");
         }
-
-        return "index";
+        return "Master";
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<Customer> getAllCustomer() {
-        return customerRepository.findAll();
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String RenderCustomerPageById(@PathVariable(name = "id", value = "id") int id, Model model) {
+        Optional<Customer> optionalItem = customerRepository.findById(id);
+
+        if (optionalItem.isPresent()) {
+            Customer c = optionalItem.get();
+            model.addAttribute("customer", c);
+            model.addAttribute("title", c.getPerson().getName());
+            model.addAttribute("Area", "Customer");
+            model.addAttribute("Sub_Page", "Profile");
+        }
+        return "Master";
     }
 
     /* Returns all customers in the database */
-    @GetMapping()
-    public @ResponseBody Customer getAllCusto() {
-		Optional<Customer> o = customerRepository.findById(0);
-		if (o.isPresent()) {
-			return o.get();
-		}
-
-		return null;
-    }
-
-	//@GetMapping()
-    public String All_Customers(Model model) {
-        Iterable<Customer> customers = customerRepository.findAll();
-        model.addAttribute("customers", customers);
-        model.addAttribute("title", "Catalogue");
-        model.addAttribute("content", "customer");
-        return "index";
+    @RequestMapping(method = RequestMethod.GET)
+    public String getAll( Model model) {
+        model.addAttribute("customers", customerRepository.findAll());
+        model.addAttribute("title", "Customer");
+        model.addAttribute("Area", "Customer");
+        model.addAttribute("Sub_Page", "Index");
+        return "Master";
     }
 }
