@@ -1,3 +1,22 @@
+
 <div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Login">
-    <h3>Login subpage</h3>
+    <div class="alert alert-primary" role="alert">
+        No Account? <a href="/Customer/Register">Register Here</a>
+    </div>
+
+    <form action="#" th:action="@{/Login}" th:object="${loginForm}" method="post">
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label">Username</label>
+            <input th:field="*{username}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('username')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label">Password</label>
+            <input th:field="*{password}" type="password" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('password')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>

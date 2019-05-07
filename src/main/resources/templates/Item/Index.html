@@ -1,7 +1,6 @@
 <div th:switch="${items}" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Index">
     <h2 th:case="null">No users yet!</h2>
     <div th:case="*">
-        <h2>Users</h2>
         <table class="table">
             <thead>
             <tr>
@@ -19,7 +18,7 @@
                     <a th:href="@{/Item/{id}(id=${item.id})}" th:text="${item.name}"></a>
                 </td>
                 <td th:text="${item.description}"></td>
-                <td th:text="${item.price}"></td>
+                <td th:text="${item.retailPrice}"></td>
                 <td th:text="${item.stock}"></td>
                 <td><a th:href="@{/edit/{id}(id=${item.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${item.id})}">Delete</a></td>

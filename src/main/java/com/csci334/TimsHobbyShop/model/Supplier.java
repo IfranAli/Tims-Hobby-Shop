@@ -10,12 +10,12 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Supplier{
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String companyName, address, creditline;
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getCompanyName() { return companyName; }
     public void setCompanyName(String name) { this.companyName= companyName; }
@@ -26,9 +26,9 @@ public class Supplier{
     public String getCreditline() { return creditline; }
     public void setCreditline(String creditline) { this.creditline = creditline; }
 
-    public List<SupplierItem> getSupplierItems() { return supplierItems; }
+    public List<Catalogue> getCatalogues() { return catalogues; }
 
-    @OneToMany(mappedBy = "itemSupplier", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "catalogueSupplier", cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<SupplierItem> supplierItems;
+    private List<Catalogue> catalogues;
 }

@@ -8,9 +8,13 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class SaleLineItem {
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id; // Lazy
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id; // Lazy
     private int quantity;
+    private double sale_price;
+
+    public double getSale_price() { return sale_price; }
+    public void setSale_price(double sale_price) { this.sale_price = sale_price; }
 
     public int getQuantity() {return quantity;}
     public void setQuantity(int quantity) {this.quantity = quantity;}

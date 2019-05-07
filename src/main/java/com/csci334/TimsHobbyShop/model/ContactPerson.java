@@ -11,8 +11,8 @@ import javax.persistence.*;
 
 public class ContactPerson {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_PersonId", unique = true)
 	Person person;

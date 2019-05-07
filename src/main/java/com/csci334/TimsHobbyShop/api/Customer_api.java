@@ -23,7 +23,7 @@ public class Customer_api {
     }
 
     @DeleteMapping
-    String delete_CustomerById (@RequestParam int id) {
+    String delete_CustomerById (@RequestParam Long id) {
         customerRepository.deleteById(id);
         return "Deleted";
     }

@@ -11,8 +11,8 @@ import java.util.List;
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "fk_PersonId")
 	private Person person;
@@ -20,18 +20,18 @@ public class Customer {
 	@OneToOne(fetch = FetchType.EAGER, optional = true, mappedBy = "member")
 	@JoinColumn(name = "clubMembership")
 	private ClubMember clubMembership;
-	
-    private String address, password, creditline;
-	private double balanace;
 
-	public String getPassword() { return password; }
-	public void setPassword(String password) { this.password = password;}
+    private String address, creditline;
+	private double balance;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getCreditline() { return creditline; }
     public void setCreditline(String creditline) { this.creditline = creditline; }
 
-    public double getBalance() { return balanace; }
-    public void setBalance(double balance) { this.balanace = balance; }
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
@@ -39,9 +39,18 @@ public class Customer {
 	public Person getPerson() { return person; }
 	public void setPerson(Person person) { this.person = person; }
 
+    public ClubMember getClubMembership() { return clubMembership; }
+    public void setClubMembership(ClubMember clubMembership) { this.clubMembership = clubMembership; }
+
     public List<Sale> getSales() { return sales; }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL) @JsonIgnore
     private List<Sale> sales;
     //@JsonManagedReference
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerWithSubjectInterest", cascade = CascadeType.ALL)
+    private List<CustomerSubjectInterest> subjectAreaInterests;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerWithModelInterest", cascade = CascadeType.ALL)
+    private List<CustomerModelInterest> modelTypeInterests;
 }

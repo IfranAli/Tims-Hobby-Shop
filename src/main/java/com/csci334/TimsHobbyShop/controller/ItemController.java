@@ -3,6 +3,8 @@ package com.csci334.TimsHobbyShop.controller;
 
 import com.csci334.TimsHobbyShop.model.Item;
 import com.csci334.TimsHobbyShop.repository.Item_Repository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,7 @@ public class ItemController {
     private Item_Repository item_repository;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String RenderItemPageById(@PathVariable(name = "id", value = "id") int id, Model model) {
+    public String RenderItemPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
         Optional<Item> o = item_repository.findById(id);
 
         if (o.isPresent()) {

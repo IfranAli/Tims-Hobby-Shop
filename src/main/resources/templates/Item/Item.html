@@ -1,6 +1,9 @@
 
 
 <div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Item">
+	Model Type: <span th:text="${item.itemModelType.name}"></span><br>
+	Subject Area: <span th:text="${item.itemSubjectArea.name}"></span><br>
+
 	<table class="table">
 		<thead>
 		<tr>
@@ -16,7 +19,7 @@
 		<tr>
 			<td th:text="${item.name}"></td>
 			<td th:text="${item.description}"></td>
-			<td th:text="${item.price}"></td>
+			<td th:text="${item.retailPrice}"></td>
 			<td th:text="${item.stock}"></td>
 			<td><a th:href="@{/edit/{id}(id=${item.id})}">Edit</a></td>
 			<td><a th:href="@{/delete/{id}(id=${item.id})}">Delete</a></td>
@@ -36,13 +39,35 @@
 		<tbody>
 		<tr th:each="s : ${item.suppliers}">
 			<td>
-				<a th:href="@{/Supplier/{id}(id=${s.supplier.id})}" th:text="${s.supplier.companyName}"></a>
+				<a th:href="@{/Supplier/{id}(id=${s.catalogue.supplier.id})}" th:text="${s.catalogue.supplier.companyName}"></a>
 			</td>
-			<td th:text="${s.supplier.address}"></td>
+			<td th:text="${s.catalogue.supplier.address}"></td>
 			<td th:text="${s.price}"></td>
 		</tr>
 		</tbody>
 	</table>
+
+	<!--<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Review">-->
+		<!--<h2>Item Reviews</h2>-->
+		<!--<table class="table">-->
+			<!--<thead>-->
+			<!--<tr>-->
+				<!--<th>Reviewer</th>-->
+				<!--<th>Rating</th>-->
+				<!--<th>Description</th>-->
+			<!--</tr>-->
+			<!--</thead>-->
+			<!--<tbody>-->
+			<!--<tr th:each="s : ${item.itemReviews}">-->
+				<!--<td>-->
+					<!--<a th:href="@{/Customer/{id}(id=${s.reviewByPerson.id})}" th:text="${s.reviewByPerson.name}"></a>-->
+				<!--</td>-->
+				<!--<td th:text="${s.rating + '/5'}"></td>-->
+				<!--<td th:text="${s.description}"></td>-->
+			<!--</tr>-->
+			<!--</tbody>-->
+		<!--</table>-->
+	<!--</div>-->
 
 	<script th:inline="javascript">
         var item = [[${item}]];

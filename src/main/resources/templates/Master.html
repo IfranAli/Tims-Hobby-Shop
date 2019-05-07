@@ -1,30 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="Template :: header"></head>
 
 
 <body>
+    <nav th:replace="Template :: navbar"></nav>
 
-<nav th:replace="Template :: navbar"></nav>
+    <div class="container">
+        <span th:if="${Area}">
+            <h2 th:if="${title}" th:text="${title}"></h2>
+            <h2 th:unless="${title}"><span>No Title Specified</span></h2>
+            <hr>
+            <div th:replace="${Area + '/' + Sub_Page} :: ${Sub_Page}"></div>
+        </span>
+        <span th:unless="${Area}">
+            <h1>404 not found</h1>
+        </span>
 
-<h1 th:text="${heading}"></h1>
-
-<div class="container">
-
-    <span th:if="${Area}">
-        <h2 th:if="${title}"><span th:text="${title}"></span></h2>
-        <h2 th:unless="${title}"><span>No Title Specified</span></h2>
-        <div th:replace="${Area + '/' + Sub_Page} :: ${Sub_Page}"></div>
-    </span>
-    <span th:unless="${Area}">
-        <h1>404 not found</h1>
-    </span>
-</div>
-
-<p><span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span></p>
+        <div th:replace="Template :: footer"></div>
+    </div>
 </body>
-
-
-<div th:replace="Template :: footer"></div>
 </html>

@@ -4,6 +4,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Username</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Password</th>
@@ -12,17 +13,17 @@
             </thead>
             <tbody>
             <tr th:each="c : ${customers}">
+                <td th:text="${c.person.username}"></td>
                 <td>
-                    <a th:href="@{/Customer/{id}(id=${c.person.id})}" th:text="${c.person.name}"></a>
+                    <a th:href="@{/Customer/{id}(id=${c.id})}" th:text="${c.person.name}"></a>
                 </td>
-
                 <td th:text="${c.Address}"></td>
-                <td th:text="${c.Password}"></td>
+                <td th:text="${c.person.Password}"></td>
                 <td>
                     <ul>
                         <li th:each="sale : ${c.sales}">
                             <a th:href="@{/Customer/sales/{id}(id=${sale.id})}">
-                                <span th:text="${sale.orderDate}"></span>
+                                <span th:text="${sale.saleDate}"></span>
                             </a>
                         </li>
                     </ul>
@@ -31,7 +32,7 @@
             </tbody>
         </table>
     </div>
-    <p><a href="/Register">Add a new Customer</a></p>
+    <p><a href="/Customer/Register">Add a new Customer</a></p>
 
     <script th:inline="javascript">
         var customers = [[${customers}]];

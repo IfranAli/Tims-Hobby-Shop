@@ -31,7 +31,7 @@ public class SaleController {
     }
 
     @RequestMapping(value = "/sales/{id}", method = RequestMethod.GET)
-    public String RenderSalePageById(@PathVariable(name = "id", value = "id") int id, Model model) {
+    public String RenderSalePageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
         Optional<Sale> optionalSale = sale_repository.findById(id);
 
         if (optionalSale.isPresent()) {
@@ -56,7 +56,7 @@ public class SaleController {
     /* Returns all customers in the database */
     @GetMapping()
     public @ResponseBody Customer getAllCusto() {
-		Optional<Customer> o = customerRepository.findById(0);
+		Optional<Customer> o = customerRepository.findById(0L);
 		if (o.isPresent()) {
 			return o.get();
 		}

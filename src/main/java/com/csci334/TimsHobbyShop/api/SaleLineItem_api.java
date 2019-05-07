@@ -20,7 +20,7 @@ public class SaleLineItem_api {
 
     @GetMapping("/add")
     public @ResponseBody
-    String add_new_SaleLineItem (@RequestParam int quantity, @RequestParam int item_id, @RequestParam int sale_id) {
+    String add_new_SaleLineItem (@RequestParam int quantity, @RequestParam Long item_id, @RequestParam Long sale_id) {
         SaleLineItem i = new SaleLineItem();
         i.setQuantity(quantity);
         sale_repository.findById(sale_id).ifPresent(i::setSale);
@@ -30,7 +30,7 @@ public class SaleLineItem_api {
     }
 
     @DeleteMapping("/delete")
-    String delete_SaleLineItem_by_id (@RequestParam int id) {
+    String delete_SaleLineItem_by_id (@RequestParam Long id) {
         saleLineItem_repository.deleteById(id);
         return "Deleted";
     }

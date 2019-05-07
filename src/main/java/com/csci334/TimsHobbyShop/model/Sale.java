@@ -12,18 +12,22 @@ import java.util.List;
 @Entity
 public class Sale {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
-    private Date order_date;
+    private Date sale_date;
     private double total;
     private String status;
+    private double discount;
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public void setDiscout(double discount) { this.discount = discount;}
+    public double getDiscount() {return discount;}
 
-    public Date getOrderDate() {return order_date;}
-    public void setrderDate(Date order_date) {this.order_date = order_date;}
+    public Long getId() {return id;}
+    public void setId(Long id) {this.id = id;}
+
+    public Date getSaleDate() {return sale_date;}
+    public void setSaleDate(Date sale_date) {this.sale_date = sale_date;}
 
     public double getTotal() {return total;}
     public void setTotal(double total) {this.total = total;}

@@ -18,7 +18,7 @@ public class Item_api {
         Item i = new Item();
         i.setName(name);
         i.setDescription(description);
-        i.setPrice(price);
+        i.setRetailPrice(price);
         i.setStock(stock);
 
         itemRepository.save(i);
@@ -26,7 +26,7 @@ public class Item_api {
     }
 
     @DeleteMapping("/delete")
-    String delete_item_by_id (@RequestParam int id) {
+    String delete_item_by_id (@RequestParam Long id) {
         itemRepository.deleteById(id);
         return "Deleted";
     }

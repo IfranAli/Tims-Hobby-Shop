@@ -20,12 +20,12 @@ public class Sale_api {
 
     @GetMapping("/add")
     public @ResponseBody
-    String add_new_sale (@RequestParam @DateTimeFormat(pattern="yyyyMMdd") Date order_date, @RequestParam String status, @RequestParam double total, @RequestParam int customer_id) {
+    String add_new_sale (@RequestParam @DateTimeFormat(pattern="yyyyMMdd") Date order_date, @RequestParam String status, @RequestParam double total, @RequestParam Long customer_id) {
         Sale s = new Sale();
 
         customerRepository.findById(customer_id).ifPresent(s::setCustomer);
 
-        s.setrderDate(new java.sql.Date(order_date.getTime()));
+        s.setSaleDate(new java.sql.Date(order_date.getTime()));
         s.setStatus(status);
         s.setTotal(total);
         saleRepository.save(s);
@@ -33,7 +33,7 @@ public class Sale_api {
     }
 
     @DeleteMapping("/delete")
-    String delete_sale_by_id (@RequestParam int id) {
+    String delete_sale_by_id (@RequestParam Long id) {
         saleRepository.deleteById(id);
         return "Deleted";
     }

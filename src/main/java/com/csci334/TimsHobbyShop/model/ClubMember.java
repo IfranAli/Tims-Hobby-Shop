@@ -10,8 +10,8 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class ClubMember{
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_CustomerId")
 	Customer member;

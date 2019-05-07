@@ -5,7 +5,7 @@
             ID: <span th:text="${sale.id}"></span> <br>
             Total: <span th:text="${sale.total}"></span> <br>
             Status: <span th:text="${sale.status}"></span> <br>
-            Order Date: <span th:text="${sale.orderDate}"></span>
+            Order Date: <span th:text="${sale.saleDate}"></span>
         </p>
         <h3>Items</h3>
         <table class="table">
@@ -23,7 +23,7 @@
                     <a th:href="@{/Item/{id}(id=${saleLine.item.id})}" th:text="${saleLine.item.name}"></a>
                 </td>
                 <td th:text="${saleLine.item.description}"></td>
-                <td th:text="${saleLine.item.price}"></td>
+                <td th:text="${saleLine.sale_price}"></td>
                 <td th:text="${saleLine.quantity}"></td>
             </tr>
             </tbody>
