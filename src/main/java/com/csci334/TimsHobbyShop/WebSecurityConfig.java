@@ -30,27 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//            .authorizeRequests()
-//                .antMatchers("/img/**","/js/**","/css/**", "/Login", "/Customer/Register/**").permitAll()
-//                .anyRequest().authenticated()
-//                .antMatchers("/Customer/**").hasRole("ADMIN");
-//    }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                //.antMatchers("/static/**","/img/**","/js/**","/css/**", "/Customer/Register/**").permitAll()
-//                .antMatchers("/img/**","/js/**","/css/**", "/Login/**", "/Customer/Register/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-////                .formLogin().loginPage("/Login").permitAll()
-////                .formLogin().loginPage("/login").permitAll()
-////                .and()
-//                .logout().permitAll();
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,5 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/Customer").permitAll()
                 .and()
                 .logout().permitAll();
+		
+		http
+				.authorizeRequests()
+				.antMatchers("/Customer/Register")
+				.hasRole("Admin");
     }
 }

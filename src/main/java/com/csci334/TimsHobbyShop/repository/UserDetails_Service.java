@@ -2,6 +2,7 @@ package com.csci334.TimsHobbyShop.repository;
 
 import com.csci334.TimsHobbyShop.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,34 +24,21 @@ public class UserDetails_Service implements UserDetailsService {
         Person p = personRepository.findByUsername(s);
 
         if (p != null) {
-            User user = new org.springframework.security.core.userdetails.User(
-                    p.getUsername(), p.getPassword(), getGrantedAuthorities("ADMIN"));
+			User user = new User(p.getUsername(), p.getPassword(),
+					getGrantedAuthorities(p.getRole()));
 
             return user;
         } else {
             User user = new org.springframework.security.core.userdetails.User(
-                    "ANONYMOUS", "ANONYMOUSPASS", getGrantedAuthorities("USER"));
+                    "ANONYMOUS", "ANONYMOUS", getGrantedAuthorities("USER"));
             return user;
         }
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String role) {
-        List<String> privileges = new ArrayList<>();
-        if (role.equals("USER")) {
-            privileges.add("USER");
-        }
-        if (role.equals("CUSTOMER")) {
-            privileges.add("CUSTOMER");
-        }
-        if (role.equals("ADMIN")) {
-            privileges.add("ADMIN");
-            privileges.add("ADMIN");
-        }
+		List<GrantedAuthority> perms = new ArrayList<>();
+		perms.add(new SimpleGrantedAuthority(role));
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
-        }
-        return authorities;
+		return perms;
     }
 }
