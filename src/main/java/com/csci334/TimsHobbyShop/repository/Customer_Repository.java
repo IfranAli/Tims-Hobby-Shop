@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface Customer_Repository extends CrudRepository<Customer, Long> {
-
-    @Query(value = "SELECT * FROM customer c WHERE c.fk_person_id = :id", nativeQuery = true)
+    @Query(value = "select * from customer c where c.fk_person_id = :id", nativeQuery = true)
     Customer findByPersonId(@Param("id") Long id);
+
+    @Query(value = "select * from customer c where c.fk_person_id in (select id from person p where p.name like %:name%)", nativeQuery = true)
+    List<Customer> searchByName(@Param("name") String name);
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -35,8 +36,13 @@ public class ItemController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getAll(Model model) {
-        model.addAttribute("items", item_repository.findAll());
+    public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
+        if(query != null && !query.isEmpty()) {
+            model.addAttribute("items", item_repository.searchByName(query));
+            model.addAttribute("query", query);
+        } else {
+            model.addAttribute("items", item_repository.findAll());
+        }
         model.addAttribute("title", "Items");
         model.addAttribute("Area", "Item");
         model.addAttribute("Sub_Page", "Index");

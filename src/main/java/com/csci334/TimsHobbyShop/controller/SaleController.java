@@ -22,54 +22,26 @@ public class SaleController {
     @Autowired
     private Sale_Repository sale_repository;
 
-    @GetMapping("/sales")
+    @GetMapping()
     public String index(Model model) {
-        Iterable<Sale> x = sale_repository.findAll();
-        model.addAttribute("items", item_repository.findAll());
-        model.addAttribute("content", "item");
-        return "index";
+        model.addAttribute("sales", sale_repository.findAll());
+        model.addAttribute("title", "Sales");
+        model.addAttribute("Area", "Sale");
+        model.addAttribute("Sub_Page", "Index");
+        return "Master";
     }
 
-    @RequestMapping(value = "/sales/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String RenderSalePageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
         Optional<Sale> optionalSale = sale_repository.findById(id);
 
         if (optionalSale.isPresent()) {
             Sale sale = optionalSale.get();
-            //List<SaleLineItem> saleLineItems = sale.getSale_line_items();
-
-            // return new ResponseEntity(sale, HttpStatus.OK);
             model.addAttribute("sale", sale);
             model.addAttribute("title", "Sale");
-            model.addAttribute("content", "sale");
-            return "index";
+            model.addAttribute("Area", "Sale");
+            model.addAttribute("Sub_Page", "Sale");
         }
-
-        return "index";
-    }
-
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<Customer> getAllCustomer() {
-        return customerRepository.findAll();
-    }
-
-    /* Returns all customers in the database */
-    @GetMapping()
-    public @ResponseBody Customer getAllCusto() {
-		Optional<Customer> o = customerRepository.findById(0L);
-		if (o.isPresent()) {
-			return o.get();
-		}
-
-		return null;
-    }
-
-	//@GetMapping()
-    public String All_Customers(Model model) {
-        Iterable<Customer> customers = customerRepository.findAll();
-        model.addAttribute("customers", customers);
-        model.addAttribute("title", "Catalogue");
-        model.addAttribute("content", "customer");
-        return "index";
+        return "Master";
     }
 }

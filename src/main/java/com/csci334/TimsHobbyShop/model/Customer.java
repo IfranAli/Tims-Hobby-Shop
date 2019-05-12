@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -43,6 +45,20 @@ public class Customer {
     public void setClubMembership(ClubMember clubMembership) { this.clubMembership = clubMembership; }
 
     public List<Sale> getSales() { return sales; }
+
+    public List<CustomerSubjectInterest> getSubjectAreaInterests() {
+        return subjectAreaInterests;
+    }
+    public List<CustomerModelInterest> getModelTypeInterests() {
+        return modelTypeInterests;
+    }
+
+    public void setSubjectAreaInterests(List<CustomerSubjectInterest> subjectAreaInterests) {
+        this.subjectAreaInterests = subjectAreaInterests;
+    }
+    public void setModelTypeInterests(List<CustomerModelInterest> modelTypeInterests) {
+        this.modelTypeInterests = modelTypeInterests;
+    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL) @JsonIgnore
     private List<Sale> sales;

@@ -23,4 +23,11 @@ public class CustomerSubjectInterest {
 
     public SubjectArea getSubjectArea() { return subjectArea; }
     public void setSubjectArea(SubjectArea subjectArea) { this.subjectArea = subjectArea; }
+
+    public Customer getCustomerWithSubjectInterest() {
+        return customerWithSubjectInterest;
+    }
+    public void setCustomerWithSubjectInterest(Customer customerWithSubjectInterest) {
+        this.customerWithSubjectInterest = customerWithSubjectInterest;
+    }
 }

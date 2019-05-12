@@ -1,38 +1,49 @@
 <div th:switch="${customers}" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Index">
     <h2 th:case="null">No Customers yet!</h2>
     <div th:case="*">
-        <table class="table">
-            <thead>
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group mr-2" role="group">
+                <a class="btn btn-primary" href="/Customer/Create">Create Customer</a>
+            </div>
+
+            <div class="btn-group mr-2 ml-auto" role="group">
+                <form action="/Customer">
+                    <div class="input-group" role="group">
+                        <div class="input-group-text input-group-append">Search</div>
+                        <input name="query" type="text" class="form-control" placeholder="name" th:value="${query}">
+                        <a class="btn btn-primary input-group-append" href="/Customer" th:if="${query}">Clear</a>
+                        <button type="submit" class="btn btn-default d-none">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
             <tr>
-                <th>Username</th>
                 <th>Name</th>
                 <th>Address</th>
-                <th>Password</th>
-                <th>Sales</th>
+                <th>Total Sales</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="c : ${customers}">
-                <td th:text="${c.person.username}"></td>
+            <tr th:each="c : ${customers}" th:object="${c}">
                 <td>
-                    <a th:href="@{/Customer/{id}(id=${c.id})}" th:text="${c.person.name}"></a>
+                    <a th:href="@{/Customer/{id}(id=*{id})}" th:text="*{person.name}"></a>
                 </td>
-                <td th:text="${c.Address}"></td>
-                <td th:text="${c.person.Password}"></td>
-                <td>
-                    <ul>
-                        <li th:each="sale : ${c.sales}">
-                            <a th:href="@{/Customer/sales/{id}(id=${sale.id})}">
-                                <span th:text="${sale.saleDate}"></span>
-                            </a>
-                        </li>
-                    </ul>
+                <td th:text="*{Address}"></td>
+                <td th:text="*{#lists.size(sales)}"></td>
+                <td class="text-nowrap">
+                    <a class="btn btn-primary" th:href="@{Customer/{id}(id=*{id})}">View</a>
+                    <a class="btn btn-secondary" th:href="@{Customer/{id}/Edit(id=*{id})}">Edit</a>
+                    <a class="btn btn-danger" th:href="@{Customer/{id}/Delete(id=*{id})}">Delete</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/Customer/Register">Add a new Customer</a></p>
 
     <script th:inline="javascript">
         var customers = [[${customers}]];

@@ -27,11 +27,10 @@
         <br>
 
         <span sec:authorize="isAuthenticated()">
-                Name: <span sec:authentication="name"></span>
-                <a th:href="@{/Logout}">Sign Out</a><br>
-                Authorities: <span sec:authentication="principal.authorities"></span> <br>
-                IsUser:<div sec:authorize="hasAuthority('USER')">USER.</div>
-            </span>
+            Name: <span sec:authentication="name"></span>
+            <a th:href="@{/Logout}">Sign Out</a><br>
+            Authorities: <span sec:authentication="principal.authorities"></span> <br>
+        </span>
     </p>
     <hr>
 </footer>
@@ -45,7 +44,9 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <!--<li class="nav-item active"><a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a></li>-->
-            <li class="nav-item"><a class="nav-link" href="/AboutUs">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Customer">Customers</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Item">Items</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Sale">Sales</a></li>
             <li class="nav-item"><a class="nav-link" href="/Catalogue">Catalogue</a></li>
             <li class="nav-item"><a class="nav-link" href="/DevTest">DevTest</a></li>
 

@@ -38,7 +38,6 @@ public class UserDetails_Service implements UserDetailsService {
     private List<GrantedAuthority> getGrantedAuthorities(String role) {
 		List<GrantedAuthority> perms = new ArrayList<>();
 		perms.add(new SimpleGrantedAuthority(role));
-
 		return perms;
     }
 }

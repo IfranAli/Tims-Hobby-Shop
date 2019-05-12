@@ -25,4 +25,11 @@ public class CustomerModelInterest {
 
     public ModelType getModelType() { return modelType; }
     public void setModelType(ModelType modelType) { this.modelType = modelType; }
+
+    public Customer getCustomerWithModelInterest() {
+        return customerWithModelInterest;
+    }
+    public void setCustomerWithModelInterest(Customer customerWithModelInterest) {
+        this.customerWithModelInterest = customerWithModelInterest;
+    }
 }
