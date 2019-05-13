@@ -63,19 +63,6 @@ public class CustomerController {
         return "Master";
     }
 
-    @GetMapping(path="/Create")
-    public String CreateCustomer(Model model) {
-        model.addAttribute("title", "Edit Customer");
-        model.addAttribute("Area", "Other");
-        model.addAttribute("Sub_Page", "CustomerForm");
-
-        if (!model.containsAttribute("customerForm")) {
-            model.addAttribute("title", "Create Customer");
-            model.addAttribute("customerForm", new CustomerForm());
-        }
-        return "Master";
-    }
-
     @RequestMapping(value = "/{cid}/Delete", method = RequestMethod.GET)
     public String DeleteCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
@@ -85,6 +72,33 @@ public class CustomerController {
         return "redirect:/Customer";
     }
 
+    @GetMapping(path="/Create")
+    public String CreateCustomer(Model model) {
+        model.addAttribute("title", "Edit Customer");
+        model.addAttribute("Area", "Other");
+        model.addAttribute("Sub_Page", "CustomerForm");
+
+		HashMap<String, Boolean> modelNames = new HashMap<>();
+		HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
+		for (ModelType modelType : modelType_repository.findAll()) {
+			modelNames.put(modelType.getName(), false);
+		}
+		for (SubjectArea subjectArea : subjectArea_repository.findAll()) {
+			subjectAreaNames.put(subjectArea.getName(), false);
+		}
+		model.addAttribute("modelNames", modelNames);
+		model.addAttribute("subjectAreaNames", subjectAreaNames);
+
+        if (!model.containsAttribute("customerForm")) {
+			CustomerForm customerForm = new CustomerForm();
+			customerForm.setSubjectAreaNames(subjectAreaNames);
+			customerForm.setModelNames(modelNames);
+            model.addAttribute("title", "Create Customer");
+            model.addAttribute("customerForm", customerForm);
+        }
+        return "Master";
+    }
+
     @RequestMapping(value = "/{cid}/Edit", method = RequestMethod.GET)
     public String EditCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
 
@@ -92,24 +106,11 @@ public class CustomerController {
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
             CustomerForm customerForm = new CustomerForm();
-            customerForm.setCustomerID(customer.getId());
-            customerForm.setName(customer.getPerson().getName());
-            customerForm.setAddress(customer.getAddress());
-            customerForm.setBalance(customer.getBalance());
-            customerForm.setCreditline(customer.getCreditline());
-            customerForm.setEmail(customer.getPerson().getEmail());
-            customerForm.setPhone(customer.getPerson().getPhone());
+			customerForm.FromEntity(customer);
 
-            List<CustomerModelInterest> customerModelInterestList = customer.getModelTypeInterests();
+			HashMap<String, Boolean> modelNames = new HashMap<>();
+			HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
 
-            HashMap<String, Boolean> modelNames = new HashMap<>();
-            HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
-            for (ModelType modelType : modelType_repository.findAll()) {
-                modelNames.put(modelType.getName(), false);
-            }
-            for (SubjectArea subjectArea : subjectArea_repository.findAll()) {
-                subjectAreaNames.put(subjectArea.getName(), false);
-            }
             for (CustomerModelInterest customerModelInterest : customer.getModelTypeInterests()) {
                 modelNames.put(customerModelInterest.getModelType().getName(), true);
             }
@@ -118,8 +119,6 @@ public class CustomerController {
             }
             customerForm.setModelNames(modelNames);
             customerForm.setSubjectAreaNames(subjectAreaNames);
-            model.addAttribute("modelNames", modelNames);
-            model.addAttribute("subjectAreaNames", subjectAreaNames);
 
             model.addAttribute("customerForm", customerForm);
             return CreateCustomer(model);

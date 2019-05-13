@@ -1,5 +1,6 @@
 package com.csci334.TimsHobbyShop.DTO;
 
+import com.csci334.TimsHobbyShop.model.*;
 import javax.validation.constraints.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,17 @@ public class CustomerForm {
     private HashMap<String, Boolean> subjectAreaNames;
 
     public CustomerForm() {}
+
+    public void FromEntity(Customer customer) {
+		this.setCustomerID(customer.getId());
+		this.setName(customer.getPerson().getName());
+		this.setAddress(customer.getAddress());
+		this.setBalance(customer.getBalance());
+		this.setCreditline(customer.getCreditline());
+		this.setEmail(customer.getPerson().getEmail());
+		this.setPhone(customer.getPerson().getPhone());
+	}
+
 
     public HashMap<String, Boolean> getModelNames() {
         return modelNames;
