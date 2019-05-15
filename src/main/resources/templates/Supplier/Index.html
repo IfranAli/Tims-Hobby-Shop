@@ -2,6 +2,9 @@
     <h2 th:case="null">No Suppliers yet!</h2>
     <div th:case="*">
         <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group mr-2" role="group">
+                <a class="btn btn-primary" href="/Supplier/Create">Create Supplier</a>
+            </div>
             <div class="btn-group mr-2 ml-auto" role="group">
                 <form action="/Supplier">
                     <div class="input-group" role="group">

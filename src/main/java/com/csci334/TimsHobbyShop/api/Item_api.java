@@ -1,9 +1,15 @@
 package com.csci334.TimsHobbyShop.api;
 
-import com.csci334.TimsHobbyShop.model.Item;
 import com.csci334.TimsHobbyShop.repository.Item_Repository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 
 @RestController
@@ -12,27 +18,25 @@ public class Item_api {
     @Autowired
     private Item_Repository itemRepository;
 
-    @GetMapping("/add")
-    public @ResponseBody
-    String add_new_item (@RequestParam String name, @RequestParam String description, @RequestParam double price, @RequestParam int stock) {
-        Item i = new Item();
-        i.setName(name);
-        i.setDescription(description);
-        i.setRetailPrice(price);
-        i.setStock(stock);
-
-        itemRepository.save(i);
-        return "Saved";
-    }
-
-    @DeleteMapping("/delete")
-    String delete_item_by_id (@RequestParam Long id) {
-        itemRepository.deleteById(id);
-        return "Deleted";
+    class ItemDTO {
+        public ItemDTO(Long id, String name, String description, String availability, double retail_price, int stock) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.availability = availability;
+            this.retail_price = retail_price;
+            this.stock = stock;
+        }
+        public Long id;
+        public String name, description, availability;
+        public double retail_price;
+        public int stock;
     }
 
     @GetMapping()
-    public @ResponseBody Iterable<Item> get_all_items() {
-        return itemRepository.findAll();
+    public @ResponseBody String get_all_items() throws JsonProcessingException {
+        ArrayList<ItemDTO> items = new ArrayList<>();
+        itemRepository.findAll().forEach(i -> items.add(new ItemDTO(i.getId(), i.getName(), i.getDescription(), i.getAvailability(), i.getRetailPrice(), i.getStock())));
+        return new ObjectMapper().writeValueAsString(items);
     }
 }

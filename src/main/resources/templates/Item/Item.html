@@ -5,10 +5,11 @@
 		<thead class="thead-dark">
 		<tr>
 			<th>Name</th>
-			<th>Type</th>
+			<th>Model Type</th>
 			<th>Subject Area</th>
 			<th>Description</th>
 			<th>Retail Price</th>
+			<th>Availability</th>
 			<th>Stock</th>
 			<th>Actions</th>
 		</tr>
@@ -20,6 +21,7 @@
 			<td th:text="${item.itemSubjectArea.name}"></td>
 			<td th:text="${item.description}"></td>
 			<td th:text="${'$' + item.retailPrice}"></td>
+			<td th:text="${item.availability}"></td>
 			<td th:text="${item.stock}"></td>
 			<td class="text-nowrap">
 				<a class="btn btn-secondary" th:href="@{/Item/{id}/Edit(id=*{id})}">Edit</a>
@@ -49,29 +51,7 @@
 		</tbody>
 	</table>
 
-	<!--<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Review">-->
-		<!--<h2>Item Reviews</h2>-->
-		<!--<table class="table">-->
-			<!--<thead>-->
-			<!--<tr>-->
-				<!--<th>Reviewer</th>-->
-				<!--<th>Rating</th>-->
-				<!--<th>Description</th>-->
-			<!--</tr>-->
-			<!--</thead>-->
-			<!--<tbody>-->
-			<!--<tr th:each="s : ${item.itemReviews}">-->
-				<!--<td>-->
-					<!--<a th:href="@{/Customer/{id}(id=${s.reviewByPerson.id})}" th:text="${s.reviewByPerson.name}"></a>-->
-				<!--</td>-->
-				<!--<td th:text="${s.rating + '/5'}"></td>-->
-				<!--<td th:text="${s.description}"></td>-->
-			<!--</tr>-->
-			<!--</tbody>-->
-		<!--</table>-->
-	<!--</div>-->
-
 	<script th:inline="javascript">
-        var item = [[${item}]];
+        // var item = [[${item}]];
 	</script>
 </div>

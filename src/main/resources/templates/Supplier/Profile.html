@@ -15,26 +15,22 @@
 		</tr>
 		</thead>
 		<tbody>
-			<!--
-			<tr th:each" c : ${supplier.catalogues}" th:object="${c}">
+			<tr th:each=" c : ${supplier.catalogues}" th:object="${c}">
 				<td>
 					<a th:href="@{/Catalogue/{id}(id=*{id})}" th:text="*{id}"></a>
 				</td>
-				<td th:text="*{date_published}"></td>
-				<td th:text="*{#supplierItems.size(sales)}"></td>
-				<td th:text="${item.stock}"></td>
+				<td th:text="*{date_publish}"></td>
+				<td th:text="*{#lists.size(supplierItems)}"></td>
 				<td class="text-nowrap">
-					<a class="btn btn-primary" th:href="@{Catalogue/{id}(id=*{id})}">View</a>
+					<a class="btn btn-primary" th:href="@{/Catalogue/{id}(id=*{id})}">View</a>
 					<a class="btn btn-secondary" th:href="@{/Supplier/{id}/Edit(id=*{id})}">Edit</a>
 					<a class="btn btn-danger" th:href="@{/Supplier/{id}/Delete(id=*{id})}">Delete</a>
 				</td>
 			</tr>
-			-->
 		</tbody>
 	</table>
 
 	<script th:inline="javascript">
-        var catalogues = [[${catalogues}]];
         var supplier = [[${supplier}]];
 	</script>
 </div>

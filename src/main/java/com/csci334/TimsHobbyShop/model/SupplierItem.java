@@ -1,5 +1,6 @@
 package com.csci334.TimsHobbyShop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -20,11 +21,17 @@ public class SupplierItem{
 
     public Catalogue getCatalogue() { return itemCatalogue; }
 
+    public Item getSuppliedItem() {
+        return suppliedItem;
+    }
+    public void setSuppliedItem(Item suppliedItem) {
+        this.suppliedItem = suppliedItem;
+    }
+
     public double getPrice() { return supplier_price; }
     public void setPrice(double price) { supplier_price = price; }
 
-    //@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_SupplierId")
-    @JsonManagedReference
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_CatalogueId")
 	private Catalogue itemCatalogue;
 

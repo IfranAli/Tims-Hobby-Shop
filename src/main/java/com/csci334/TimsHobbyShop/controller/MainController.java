@@ -42,26 +42,11 @@ public class MainController {
         return "redirect:/DevTest";
     }
 
-    @GetMapping("/DevTest")
-    public String DevTest(Model model, Authentication authentication) {
-        model.addAttribute("title", "DevTest");
-        model.addAttribute("Area", "Other");
-        model.addAttribute("Sub_Page", "DevTest");
-        return "Master";
-    }
-
     @GetMapping(path="/AboutUs")
     public String AboutUs(Model model, Authentication authentication) {
         model.addAttribute("title", "AboutUs");
         model.addAttribute("Area", "Other");
         model.addAttribute("Sub_Page", "AboutUs");
-        return "Master";
-    }
-    @GetMapping(path="/Catalogue")
-    public String Catalogue(Model model) {
-        model.addAttribute("title", "Catalogue");
-        model.addAttribute("Area", "Catalogue");
-        model.addAttribute("Sub_Page", "Index");
         return "Master";
     }
 
