@@ -22,6 +22,8 @@ public class Catalogue {
 
     public Supplier getSupplier() { return catalogueSupplier; }
 
+	public List<SupplierItem> getSupplierItems() { return supplierItems; }
+
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_supplier_id")
     private Supplier catalogueSupplier;
 

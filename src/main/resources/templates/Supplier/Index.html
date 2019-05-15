@@ -2,16 +2,12 @@
     <h2 th:case="null">No Suppliers yet!</h2>
     <div th:case="*">
         <div class="btn-toolbar" role="toolbar">
-            <div class="btn-group mr-2" role="group">
-                <a class="btn btn-primary" href="/Supplier/Create">Create Supplier</a>
-            </div>
-
             <div class="btn-group mr-2 ml-auto" role="group">
-                <form action="/Item">
+                <form action="/Supplier">
                     <div class="input-group" role="group">
                         <div class="input-group-text input-group-append">Search</div>
                         <input name="query" type="text" class="form-control" placeholder="name" th:value="${query}">
-                        <a class="btn btn-primary input-group-append" href="/Item" th:if="${query}">Clear</a>
+                        <a class="btn btn-primary input-group-append" href="/Supplier" th:if="${query}">Clear</a>
                         <button type="submit" class="btn btn-default d-none">Submit</button>
                     </div>
                 </form>
@@ -22,28 +18,27 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th class="text-nowrap">Retail Price</th>
-                <th>Stock</th>
+                <th>Company Name</th>
+                <th>Address</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${items}" th:object="${item}">
+            <tr th:each="supplier: ${suppliers}" th:object="${supplier}">
                 <td>
-                    <a th:href="@{/Item/{id}(id=*{id})}" th:text="*{name}"></a>
+                    <a th:href="@{/Supplier/{id}(id=*{id})}" th:text="*{CompanyName}"></a>
                 </td>
-                <td th:text="*{description}"></td>
-                <td th:text="*{'$' + retailPrice}"></td>
-                <td th:text="*{stock}"></td>
+                <td th:text="*{Address}"></td>
                 <td class="text-nowrap">
-                    <a class="btn btn-primary" th:href="@{Item/{id}(id=*{id})}">View</a>
-                    <a class="btn btn-secondary" th:href="@{Item/{id}/Edit(id=*{id})}">Edit</a>
-                    <a class="btn btn-danger" th:href="@{Item/{id}/Delete(id=*{id})}">Delete</a>
+                    <a class="btn btn-primary" th:href="@{Supplier/{id}(id=*{id})}">View</a>
+                    <a class="btn btn-secondary" th:href="@{Supplier/{id}/Edit(id=*{id})}">Edit</a>
+                    <a class="btn btn-danger" th:href="@{Supplier/{id}/Delete(id=*{id})}">Delete</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+	<script th:inline="javascript">
+        //var suppliers = [[${suppliers}]];
+	</script>
 </div>

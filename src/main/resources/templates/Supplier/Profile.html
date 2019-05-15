@@ -1,0 +1,40 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Profile">
+
+    Company Name: <span th:text="${supplier.companyName}"></span><br>
+    Address: <span th:text="${supplier.address}"></span><br>
+    Credit Line: <span th:text="${supplier.creditline}"></span><br>
+
+	<h3>Catalogues</h3>
+	<table class="table table-striped table-bordered">
+		<thead class="thead-dark">
+		<tr>
+			<th>ID</th>
+			<th>Date Published</th>
+			<th>#Items</th>
+			<th>Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+			<!--
+			<tr th:each" c : ${supplier.catalogues}" th:object="${c}">
+				<td>
+					<a th:href="@{/Catalogue/{id}(id=*{id})}" th:text="*{id}"></a>
+				</td>
+				<td th:text="*{date_published}"></td>
+				<td th:text="*{#supplierItems.size(sales)}"></td>
+				<td th:text="${item.stock}"></td>
+				<td class="text-nowrap">
+					<a class="btn btn-primary" th:href="@{Catalogue/{id}(id=*{id})}">View</a>
+					<a class="btn btn-secondary" th:href="@{/Supplier/{id}/Edit(id=*{id})}">Edit</a>
+					<a class="btn btn-danger" th:href="@{/Supplier/{id}/Delete(id=*{id})}">Delete</a>
+				</td>
+			</tr>
+			-->
+		</tbody>
+	</table>
+
+	<script th:inline="javascript">
+        var catalogues = [[${catalogues}]];
+        var supplier = [[${supplier}]];
+	</script>
+</div>

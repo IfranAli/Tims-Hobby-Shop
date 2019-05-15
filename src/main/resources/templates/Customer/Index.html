@@ -22,6 +22,7 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Total Sales</th>
@@ -30,6 +31,7 @@
             </thead>
             <tbody>
             <tr th:each="c : ${customers}" th:object="${c}">
+				<td th:text="*{id}"></td>
                 <td>
                     <a th:href="@{/Customer/{id}(id=*{id})}" th:text="*{person.name}"></a>
                 </td>
