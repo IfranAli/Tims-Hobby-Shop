@@ -146,10 +146,6 @@ public class CustomerController {
 //                    "Username exists"));
 //        }
 
-        if (bindingResult.hasErrors()) {
-            return "Master";
-        }
-
         // Save in database.
         Person person = new Person();
         Customer customer = new Customer();

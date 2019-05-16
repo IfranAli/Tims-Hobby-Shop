@@ -12,6 +12,10 @@ header{
   margin-left: 36%;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+  color: #FFFFFF !important;
+}
+
 h1{
   font-family: American typewritter, serif;
   font-style: italic;

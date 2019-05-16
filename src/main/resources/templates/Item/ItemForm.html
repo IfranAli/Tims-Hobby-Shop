@@ -1,0 +1,80 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="ItemForm">
+    <form action="#" th:action="@{/Item/Create}" th:object="${itemForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Item ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <input th:field="*{name}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('name')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <input th:field="*{description}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('description')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Availability</label>
+            <input th:field="*{availability}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('availability')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Stock</label>
+            <input th:field="*{stock}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('stock')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Retail Price</label>
+            <input th:field="*{retail_price}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('retail_price')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('retail_price')}" th:errors="*{retail_price}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Model Type</label>
+            <select th:field="*{model_type}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('model_type')} ? is-invalid : is-valid">
+                <option th:each="p : ${modelTypes}" th:value="${p.id}" th:text="${p.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('model_type')}" th:errors="*{model_type}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Subject Area</label>
+            <select th:field="*{model_subject_area}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('model_subject_area')} ? is-invalid : is-valid">
+                <option th:each="p : ${subjectAreaNames}" th:value="${p.id}" th:text="${p.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('model_subject_area')}" th:errors="*{model_subject_area}" class="invalid-feedback"></div>
+        </div>
+
+        <script th:inline="javascript">
+            // var modelNames = [[${modelNames}]];
+            // var subjectAreaNames = [[${subjectAreaNames}]];
+        </script>
+
+        <!--<div class="form-group row">-->
+            <!--<label class="col-sm-2 col-form-label">Subject Areas</label>-->
+            <!--<div th:each="subject : ${subjectAreaNames}" class="form-check form-check-inline">-->
+                <!--<input class="form-check-input" type="checkbox" th:field="*{subjectAreaNames[__${subject.key}__]}" th:value="${subject.key}" th:checked="${subject.value}">-->
+                <!--<label class="form-check-label" th:text="${subject.key}"></label>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row">-->
+            <!--<label class="col-sm-2 col-form-label">Model Types</label>-->
+            <!--<div th:each="model : ${modelNames}" class="form-check form-check-inline">-->
+                <!--<input class="form-check-input" type="checkbox" th:field="*{modelNames[__${model.key}__]}" th:value="${model.key}" th:checked="${model.value}">-->
+                <!--<label class="form-check-label" th:text="${model.key}"></label>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

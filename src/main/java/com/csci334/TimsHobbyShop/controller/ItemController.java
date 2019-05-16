@@ -1,18 +1,22 @@
 
 package com.csci334.TimsHobbyShop.controller;
 
+import com.csci334.TimsHobbyShop.DTO.ItemForm;
 import com.csci334.TimsHobbyShop.model.Item;
+import com.csci334.TimsHobbyShop.model.ModelType;
+import com.csci334.TimsHobbyShop.model.SubjectArea;
 import com.csci334.TimsHobbyShop.repository.Item_Repository;
+import com.csci334.TimsHobbyShop.repository.ModelType_Repository;
+import com.csci334.TimsHobbyShop.repository.SubjectArea_Repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +24,24 @@ import java.util.Optional;
 public class ItemController {
     @Autowired
     private Item_Repository item_repository;
+    @Autowired
+    private ModelType_Repository modelType_repository;
+    @Autowired
+    private SubjectArea_Repository subjectArea_repository;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
+        if(query != null && !query.isEmpty()) {
+            model.addAttribute("items", item_repository.searchByName(query));
+            model.addAttribute("query", query);
+        } else {
+            model.addAttribute("items", item_repository.findAll());
+        }
+        model.addAttribute("title", "Items");
+        model.addAttribute("Area", "Item");
+        model.addAttribute("Sub_Page", "Index");
+        return "Master";
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String RenderItemPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
@@ -35,17 +57,79 @@ public class ItemController {
         return "Master";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
-        if(query != null && !query.isEmpty()) {
-            model.addAttribute("items", item_repository.searchByName(query));
-            model.addAttribute("query", query);
-        } else {
-            model.addAttribute("items", item_repository.findAll());
+    @RequestMapping(value = "/{id}/Edit", method = RequestMethod.GET)
+    public String RenderItemEditPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
+        Optional<Item> o = item_repository.findById(id);
+        if (o.isPresent()) {
+            Item i = o.get();
+
+            ItemForm itemForm = new ItemForm();
+            itemForm.setId(i.getId());
+            itemForm.setRetail_price(i.getRetailPrice());
+            itemForm.setStock(i.getStock());
+            itemForm.setDescription(i.getDescription());
+            itemForm.setName(i.getName());
+            itemForm.setAvailability(i.getAvailability());
+            itemForm.setModel_type(i.getItemModelType().getId());
+            itemForm.setModel_subject_area(i.getItemSubjectArea().getId());
+
+            // Set subject area and model type
+            model.addAttribute("itemForm", itemForm);
+            model.addAttribute("title", i.getName());
+            model.addAttribute("Area", "Item");
+            model.addAttribute("Sub_Page", "ItemForm");
+
+            return CreateItem(model);
         }
-        model.addAttribute("title", "Items");
+        return "redirect:/Item";
+    }
+
+    @GetMapping("/Create")
+    public String CreateItem(Model model) {
+        model.addAttribute("title", "Edit Item");
         model.addAttribute("Area", "Item");
-        model.addAttribute("Sub_Page", "Index");
+        model.addAttribute("Sub_Page", "ItemForm");
+        model.addAttribute("modelTypes", modelType_repository.findAll());
+        model.addAttribute("subjectAreaNames", subjectArea_repository.findAll());
+        if (!model.containsAttribute("itemForm")) {
+            model.addAttribute("title", "Create Item");
+            model.addAttribute("itemForm", new ItemForm());
+        }
         return "Master";
+    }
+
+    @PostMapping("/Create")
+    public String CreateItem(Model model, @Valid ItemForm form, BindingResult bindingResult) {
+        model.addAttribute("title", "Create Item");
+        model.addAttribute("Area", "Item");
+        model.addAttribute("Sub_Page", "ItemForm");
+
+        if (bindingResult.hasErrors()) return "Master";
+
+        Item item = new Item();
+
+        // Are we saving an existing item?
+        if(form.getId() != null) {
+            Optional<Item> optionalItem = item_repository.findById(form.getId());
+            if (optionalItem.isPresent()) {
+                item = optionalItem.get();
+            }
+        }
+
+        item.setRetailPrice(form.getRetail_price());
+        item.setStock(form.getStock());
+        item.setDescription(form.getDescription());
+        item.setName(form.getName());
+        item.setAvailability(form.getAvailability());
+
+        Optional<ModelType> optionalModelType = modelType_repository.findById(form.getModel_type());
+        Optional<SubjectArea> optionalSubjectArea = subjectArea_repository.findById(form.getModel_subject_area());
+        if (optionalModelType.isPresent() && optionalSubjectArea.isPresent()) {
+            item.setItemModelType(optionalModelType.get());
+            item.setItemSubjectArea(optionalSubjectArea.get());
+        }
+
+        item_repository.save(item);
+        return String.format("redirect:/Item/%d", item.getId());
     }
 }
