@@ -56,26 +56,25 @@ public class ItemController {
         }
         return "Master";
     }
+	
+	@GetMapping(value = "/{id}/Delete")
+    public String ItemDeleteById(@PathVariable(name = "id", value = "id") Long id) {
+		Optional<Item> optionalItem = item_repository.findById(id);
+		if (optionalItem.isPresent())
+			item_repository.deleteById(id);
+		// TODO: check how much delete actually deletes.
+        return "redirect:/Item";
+	}
 
     @RequestMapping(value = "/{id}/Edit", method = RequestMethod.GET)
     public String RenderItemEditPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
         Optional<Item> o = item_repository.findById(id);
         if (o.isPresent()) {
-            Item i = o.get();
-
-            ItemForm itemForm = new ItemForm();
-            itemForm.setId(i.getId());
-            itemForm.setRetail_price(i.getRetailPrice());
-            itemForm.setStock(i.getStock());
-            itemForm.setDescription(i.getDescription());
-            itemForm.setName(i.getName());
-            itemForm.setAvailability(i.getAvailability());
-            itemForm.setModel_type(i.getItemModelType().getId());
-            itemForm.setModel_subject_area(i.getItemSubjectArea().getId());
+            ItemForm itemForm = new ItemForm(o.get());
 
             // Set subject area and model type
             model.addAttribute("itemForm", itemForm);
-            model.addAttribute("title", i.getName());
+            model.addAttribute("title", itemForm.getName());
             model.addAttribute("Area", "Item");
             model.addAttribute("Sub_Page", "ItemForm");
 

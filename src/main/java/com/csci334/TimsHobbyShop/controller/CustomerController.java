@@ -72,12 +72,41 @@ public class CustomerController {
         return "redirect:/Customer";
     }
 
+    @RequestMapping(value = "/{cid}/Edit", method = RequestMethod.GET)
+    public String EditCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            CustomerForm customerForm = new CustomerForm();
+			customerForm.FromEntity(customer);
+
+			// TODO: Find a better way to pass customer model and subject area interests 
+			HashMap<String, Boolean> modelNames = new HashMap<>();
+			HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
+
+            for (CustomerModelInterest customerModelInterest : customer.getModelTypeInterests()) {
+                modelNames.put(customerModelInterest.getModelType().getName(), true);
+            }
+            for (CustomerSubjectInterest customerSubjectInterest : customer.getSubjectAreaInterests()) {
+                subjectAreaNames.put(customerSubjectInterest.getSubjectArea().getName(), true);
+            }
+            customerForm.setModelNames(modelNames);
+            customerForm.setSubjectAreaNames(subjectAreaNames);
+
+            model.addAttribute("customerForm", customerForm);
+            return CreateCustomer(model);
+        }
+        return "redirect:/Customer";
+    }
+
     @GetMapping(path="/Create")
     public String CreateCustomer(Model model) {
         model.addAttribute("title", "Edit Customer");
         model.addAttribute("Area", "Other");
         model.addAttribute("Sub_Page", "CustomerForm");
 
+		// TODO: Find a better way to pass model and subject area data
 		HashMap<String, Boolean> modelNames = new HashMap<>();
 		HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
 		for (ModelType modelType : modelType_repository.findAll()) {
@@ -95,33 +124,6 @@ public class CustomerController {
 			customerForm.setModelNames(modelNames);
             model.addAttribute("title", "Create Customer");
             model.addAttribute("customerForm", customerForm);
-        }
-        return "Master";
-    }
-
-    @RequestMapping(value = "/{cid}/Edit", method = RequestMethod.GET)
-    public String EditCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
-
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            CustomerForm customerForm = new CustomerForm();
-			customerForm.FromEntity(customer);
-
-			HashMap<String, Boolean> modelNames = new HashMap<>();
-			HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
-
-            for (CustomerModelInterest customerModelInterest : customer.getModelTypeInterests()) {
-                modelNames.put(customerModelInterest.getModelType().getName(), true);
-            }
-            for (CustomerSubjectInterest customerSubjectInterest : customer.getSubjectAreaInterests()) {
-                subjectAreaNames.put(customerSubjectInterest.getSubjectArea().getName(), true);
-            }
-            customerForm.setModelNames(modelNames);
-            customerForm.setSubjectAreaNames(subjectAreaNames);
-
-            model.addAttribute("customerForm", customerForm);
-            return CreateCustomer(model);
         }
         return "Master";
     }
@@ -174,6 +176,7 @@ public class CustomerController {
         customer.setCreditline(form.getCreditline());
         customer.setPerson(person);
 
+		// TODO: Find a better way to pass model and subject area data
         customerModelInterest_repository.deleteByCustomerID(customer.getId());
         ArrayList<CustomerModelInterest> customerModelInterests = new ArrayList<>();
         for (Map.Entry<String, Boolean> e : form.getModelNames().entrySet()) {

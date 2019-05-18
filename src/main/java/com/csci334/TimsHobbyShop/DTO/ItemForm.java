@@ -1,5 +1,6 @@
 package com.csci334.TimsHobbyShop.DTO;
 
+import com.csci334.TimsHobbyShop.model.Item;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +21,18 @@ public class ItemForm {
     private long model_subject_area;
 
     public ItemForm() {}
+
+	// Constructor to populate Item DTO from Item object. 
+    public ItemForm(Item i) {
+		this.setId(i.getId());
+		this.setRetail_price(i.getRetailPrice());
+		this.setStock(i.getStock());
+		this.setDescription(i.getDescription());
+		this.setName(i.getName());
+		this.setAvailability(i.getAvailability());
+		this.setModel_type(i.getItemModelType().getId());
+		this.setModel_subject_area(i.getItemSubjectArea().getId());
+	}
 
     public Long getId() {
         return id;

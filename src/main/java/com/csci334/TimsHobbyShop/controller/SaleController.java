@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(path="/Sale")
 public class SaleController {
@@ -43,5 +45,69 @@ public class SaleController {
             model.addAttribute("Sub_Page", "Sale");
         }
         return "Master";
+    }
+
+	@GetMapping(value = "/{id}/Delete")
+    public String DeleteSaleById(@PathVariable(name = "id", value = "id") Long id) {
+		Optional<Sale> optionalSale = sale_repository.findById(id);
+		if (optionalSale.isPresent())
+			sale_repository.deleteById(id);
+		// TODO: check how much delete actually deletes.
+        return "redirect:/Sale";
+	}
+
+    @RequestMapping(value = "/{id}/Edit", method = RequestMethod.GET)
+    public String RenderSaleEditPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
+        Optional<Sale> o = sale_repository.findById(id);
+        if (o.isPresent()) {
+
+			//TODO: Populate saleForm
+            SaleForm saleForm = new SaleForm(o.get());
+
+            // Set subject area and model type
+            model.addAttribute("saleForm", saleForm);
+            model.addAttribute("title", saleForm.getName());
+            model.addAttribute("Area", "Sale");
+            model.addAttribute("Sub_Page", "SaleForm");
+
+            return CreateSale(model);
+        }
+        return "redirect:/Sale";
+    }
+
+    @GetMapping("/Create")
+    public String CreateSale(Model model) {
+        model.addAttribute("title", "Edit Sale");
+        model.addAttribute("Area", "Sale");
+        model.addAttribute("Sub_Page", "SaleForm");
+        if (!model.containsAttribute("saleForm")) {
+            model.addAttribute("title", "Create Sale");
+            model.addAttribute("saleForm", new SaleForm());
+        }
+        return "Master";
+    }
+
+    @PostMapping("/Create")
+    public String CreateSalePost(Model model, @ValidSaleForm form, BindingResult bindingResult) {
+        model.addAttribute("title", "Create Sale");
+        model.addAttribute("Area", "Sale");
+        model.addAttribute("Sub_Page", "SaleForm");
+
+        if (bindingResult.hasErrors()) return "Master";
+
+        Sale sale = new Sale();
+
+        // Are we saving an existing item?
+        if(form.getId() != null) {
+            Optional<Sale> optionalSale = sale_repository.findById(form.getId());
+            if (optionalSale.isPresent()) {
+                sale = optionalSale.get();
+            }
+        }
+
+		//TODO: Set sale fields from model
+
+        sale_repository.save(sale);
+        return String.format("redirect:/Sale/%d", sale.getId());
     }
 }
