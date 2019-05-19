@@ -1,6 +1,10 @@
 <div th:switch="${sale}" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Sale">
     <h2 th:case="null">No sale</h2>
     <div th:case="*">
+
+        <a class="btn btn-secondary" th:href="@{/Sale/{id}/Edit(id=*{id})}">Edit</a>
+        <a class="btn btn-danger" th:href="@{/Sale/{id}/Delete(id=*{id})}">Delete</a> <br>
+
         <p>
             ID: <span th:text="${sale.id}"></span> <br>
             Total: <span th:text="${sale.total}"></span> <br>

@@ -7,7 +7,7 @@
     Total Catalogue Items: <span th:text="${#lists.size(catalogue.supplierItems)}"></span><br>
 
 	<h3>Catalogue Items</h3>
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered table-sm">
 		<thead class="thead-dark">
 		<tr>
 			<th>Item Name</th>
@@ -24,9 +24,9 @@
 				<td th:text="*{suppliedItem.availability}"></td>
 				<td th:text="*{'$' + price}"></td>
 				<td class="text-nowrap">
-					<a class="btn btn-primary" th:href="@{/Item/{id}(id=*{suppliedItem.id})}">View</a>
-					<a class="btn btn-secondary" th:href="@{/Item/{id}/Edit(id=*{suppliedItem.id})}">Edit</a>
-					<a class="btn btn-danger" th:href="@{/Item/{id}/Delete(id=*{suppliedItem.id})}">Delete</a>
+					<a class="btn-sm btn-primary" th:href="@{/Item/{id}(id=*{suppliedItem.id})}">View</a>
+					<a class="btn-sm btn-secondary" th:href="@{/Item/{id}/Edit(id=*{suppliedItem.id})}">Edit</a>
+					<a class="btn-sm btn-danger" th:href="@{/Item/{id}/Delete(id=*{suppliedItem.id})}">Delete</a>
 				</td>
 			</tr>
 		</tbody>

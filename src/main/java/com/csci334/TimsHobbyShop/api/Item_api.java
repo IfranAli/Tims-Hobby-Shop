@@ -20,9 +20,14 @@ public class Item_api {
 
     @GetMapping()
     public @ResponseBody
-    String get_all_items() throws JsonProcessingException {
+    String get_all_items() {
         ArrayList<ItemDTO> items = new ArrayList<>();
-        itemRepository.findAll().forEach(i -> items.add(new ItemDTO(i.getId(), i.getName(), i.getDescription(), i.getAvailability(), i.getRetailPrice(), i.getStock())));
-        return new ObjectMapper().writeValueAsString(items);
+        itemRepository.findAll().forEach(i -> items.add(new ItemDTO(i)));
+        try {
+            return new ObjectMapper().writeValueAsString(items);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

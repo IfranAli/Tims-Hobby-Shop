@@ -1,6 +1,7 @@
-
-
 <div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Item">
+	<a class="btn btn-secondary" th:href="@{/Item/{id}/Edit(id=*{id})}">Edit</a>
+	<a class="btn btn-danger" th:href="@{/Item/{id}/Delete(id=*{id})}">Delete</a> <br>
+
 	<table class="table table-striped table-bordered">
 		<thead class="thead-dark">
 		<tr>
@@ -52,6 +53,6 @@
 	</table>
 
 	<script th:inline="javascript">
-        // var item = [[${item}]];
+        // var i = [[${items}]];
 	</script>
 </div>

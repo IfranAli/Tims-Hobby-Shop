@@ -4,6 +4,7 @@ import com.csci334.TimsHobbyShop.model.Item;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 public class ItemForm {
 

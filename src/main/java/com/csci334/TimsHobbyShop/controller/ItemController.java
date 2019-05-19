@@ -2,6 +2,8 @@
 package com.csci334.TimsHobbyShop.controller;
 
 import com.csci334.TimsHobbyShop.DTO.ItemForm;
+import com.csci334.TimsHobbyShop.api.Item_api;
+import com.csci334.TimsHobbyShop.api.SaleLineItem_api;
 import com.csci334.TimsHobbyShop.model.Item;
 import com.csci334.TimsHobbyShop.model.ModelType;
 import com.csci334.TimsHobbyShop.model.SubjectArea;

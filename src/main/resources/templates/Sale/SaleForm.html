@@ -1,0 +1,214 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="SaleForm">
+    <form action="#" th:action="@{/Sale/Create}" th:object="${saleForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Sale ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Total</label>
+            <input th:field="*{total}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('total')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('total')}" th:errors="*{total}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Discount</label>
+            <input th:field="*{discount}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('discount')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Status</label>
+            <input th:field="*{status}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('status')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Sale Date</label>
+            <input th:field="*{sale_date}" type="date" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('sale_date')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('sale_date')}" th:errors="*{sale_date}" class="invalid-feedback"></div>
+        </div>
+
+        <h2>Sale Line Items</h2>
+        <hr>
+
+        <div class="float-right">
+            <button class="btn btn-primary" type="button" onclick="showModal()">Add Sale Line Item</button>
+        </div><br>
+
+        <br>
+        <table id="table_items" class="table table-striped table-bordered table-sm nosort">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Sale Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s, i : *{saleLineItemDTOs}" th:saleId="*{saleLineItemDTOs[__${i.index}__].saleId}">
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].saleId}" class="d-none"/>
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].itemId}" class="d-none"/>
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].quantity}" class="d-none"/>
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].name}" class="d-none"/>
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].description}" class="d-none"/>
+                <input th:field="*{saleLineItemDTOs[__${i.index}__].sale_price}" class="d-none"/>
+
+                <td th:text="*{saleLineItemDTOs[__${i.index}__].name}" /></td>
+                <td th:text="*{saleLineItemDTOs[__${i.index}__].description}" /></td>
+                <td th:text="*{saleLineItemDTOs[__${i.index}__].quantity}" /></td>
+                <td th:text="*{'$' + saleLineItemDTOs[__${i.index}__].sale_price}" /></td>
+                <td>
+                    <button type="button" class="btn-sm btn-danger" data-dismiss="modal"
+                            th:onclick="|removeItem(${i.index}, *{saleLineItemDTOs[__${i.index}__].saleId})|">Remove</button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="itemSelectModal" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="itemSelectModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Add SaleLineItems</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="text" id="modal_quantity" class="form-control" value="1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">Quantity</span>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead class="thead-dark">
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Retail Price</th>
+                                <th>Actions</th>
+                                <!--<th>Availability</th>-->
+                                <!--<th>Stock</th>-->
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${items}" th:object="${item}">
+                                    <!--<td><a th:href="@{/Item/{id}(id=*{id})}" th:text="*{name}"></a></td>-->
+                                    <td th:text="*{name}"></td>
+                                    <td th:text="*{description}"></td>
+                                    <td th:text="*{'$' + retail_price}"></td>
+                                    <!--<td th:text="${item.availability}"></td>-->
+                                    <!--<td th:text="*{stock}"></td>-->
+                                    <td>
+                                        <button type="button" class="btn-sm btn-primary" data-dismiss="modal" th:onclick="|addItem('*{id}')|">Add</button>
+                                        <a class="btn-sm btn-secondary" target="_blank" th:href="@{/Item/{id}(id=*{id})}">Info</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            var items = [[${items}]];
+            var salelineitems = [[*{saleLineItemDTOs}]];
+
+            var items_total = salelineitems.length;
+            form = $('form');
+            table_items = $('#table_items');
+
+            function addItem(itemId) {
+
+                // TODO: Stop using ID's to keep track of items, instead, assign them to an array and calculate input fields then, making removing and adding items easier.
+                itemId = parseInt(itemId);
+                var uid = Math.floor(Math.random() * (9999999 - 1999999) + 1999999);
+                var item = items.find(function(e) { return e.id === itemId });
+                var quantity = $("#modal_quantity").val();
+                var row = document.createElement("tr");
+                var data = "<td>" + item.name + "</td>" + "<td>" + item.description + "</td>" +
+                    "<td>" + quantity + "</td>" + "<td>$" + item.retail_price + "</td>" +
+                    "<td><button type='button' class='btn-sm btn-danger' data-dismiss='modal' " +
+                    "onclick=removeItem(" + items_total + "," + uid + ")>Remove</button></td>";
+
+                row.setAttribute("saleId", uid);
+                row.innerHTML = data.trim();
+                table_items.append(row);
+
+                // Item ID
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".itemId");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].itemId");
+                row.setAttribute("value", item.id);
+                form.append(row);
+
+                // Quantity
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".quantity");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].quantity");
+                row.setAttribute("value", quantity);
+                form.append(row);
+
+                // name
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".name");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].name");
+                row.setAttribute("value", item.name);
+                form.append(row);
+
+                // description
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".description");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].description");
+                row.setAttribute("value", item.description);
+                form.append(row);
+
+                // sale_price
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".retail_price");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].retail_price");
+                row.setAttribute("value", item.retail_price);
+                form.append(row);
+
+                // retail_price
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "saleLineItemDTOs" + items_total + ".sale_price");
+                row.setAttribute("name", "saleLineItemDTOs[" + items_total + "].sale_price");
+                row.setAttribute("value", item.retail_price);
+                form.append(row);
+
+                items_total++;
+            }
+
+            function removeItem(saleIndex, saleId) {
+                $("input[id^='saleLineItemDTOs" + saleIndex + "']").remove();
+                $("#table_items tr[saleId=" + saleId + "]").remove();
+            }
+
+            function showModal() {
+                $("#itemSelectModal").modal("show");
+            }
+
+            $("document").ready(function () {
+                $("#add_item_btn").onclick = showModal;
+            })
+        </script>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div th:replace="Sale/SaleForm :: itemSelectModal"></div>
+</div>
