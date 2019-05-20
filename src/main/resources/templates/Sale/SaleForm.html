@@ -50,7 +50,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="s, i : *{saleLineItemDTOs}" th:saleId="*{saleLineItemDTOs[__${i.index}__].saleId}">
+            <tr th:each="s, i : *{saleLineItemDTOs}"
+				th:itemId="*{saleLineItemDTOs[__${i.index}__].itemId}"
+				th:index="${i.index}">
                 <input th:field="*{saleLineItemDTOs[__${i.index}__].saleId}" class="d-none"/>
                 <input th:field="*{saleLineItemDTOs[__${i.index}__].itemId}" class="d-none"/>
                 <input th:field="*{saleLineItemDTOs[__${i.index}__].quantity}" class="d-none"/>
@@ -64,7 +66,7 @@
                 <td th:text="*{'$' + saleLineItemDTOs[__${i.index}__].sale_price}" /></td>
                 <td>
                     <button type="button" class="btn-sm btn-danger" data-dismiss="modal"
-                            th:onclick="|removeItem(${i.index}, *{saleLineItemDTOs[__${i.index}__].saleId})|">Remove</button>
+                            th:onclick="|removeItem(${i.index}, *{saleLineItemDTOs[__${i.index}__].itemId})|">Remove</button>
                 </td>
             </tr>
 
@@ -126,19 +128,17 @@
             table_items = $('#table_items');
 
             function addItem(itemId) {
-
-                // TODO: Stop using ID's to keep track of items, instead, assign them to an array and calculate input fields then, making removing and adding items easier.
                 itemId = parseInt(itemId);
-                var uid = Math.floor(Math.random() * (9999999 - 1999999) + 1999999);
+                //var uid = Math.floor(Math.random() * (9999999 - 1999999) + 1999999);
                 var item = items.find(function(e) { return e.id === itemId });
                 var quantity = $("#modal_quantity").val();
                 var row = document.createElement("tr");
                 var data = "<td>" + item.name + "</td>" + "<td>" + item.description + "</td>" +
                     "<td>" + quantity + "</td>" + "<td>$" + item.retail_price + "</td>" +
                     "<td><button type='button' class='btn-sm btn-danger' data-dismiss='modal' " +
-                    "onclick=removeItem(" + items_total + "," + uid + ")>Remove</button></td>";
+                    "onclick=removeItem(" + items_total + "," + item.id + ")>Remove</button></td>";
 
-                row.setAttribute("saleId", uid);
+                row.setAttribute("itemId", item.id);
                 row.innerHTML = data.trim();
                 table_items.append(row);
 
@@ -193,9 +193,19 @@
                 items_total++;
             }
 
-            function removeItem(saleIndex, saleId) {
-                $("input[id^='saleLineItemDTOs" + saleIndex + "']").remove();
-                $("#table_items tr[saleId=" + saleId + "]").remove();
+            function removeItem(index, itemId) {
+                $("input[id^='saleLineItemDTOs" + index + "']").remove();
+                $("#table_items tr[itemId=" + itemId + "]").remove();
+
+				var rows = $("#table_items tr[itemId]")
+
+                $("input[id^='saleLineItemDTOs'").remove();
+                $("#table_items tr[itemId").remove();
+
+				items_total = 0;
+				for (var i=0; i < rows.length; i++) {
+				   addItem(rows[i].getAttribute('itemId'))
+				}
             }
 
             function showModal() {
