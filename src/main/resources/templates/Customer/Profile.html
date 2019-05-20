@@ -1,73 +1,92 @@
 <div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Profile">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm">
+                    Customer Information
+                </div>
+                <div class="col-sm">
+                    <ul class="nav float-right">
+                        <li class="nav-item">
+                            <a class="btn-sm btn-secondary" th:href="@{/Customer/{id}/Edit(id=*{id})}">Edit Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn-sm btn-danger" th:href="@{/Customer/{id}/Delete(id=*{id})}">Delete Customer</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Name:</dt>
+                <dd class="col-sm-9" th:text="${customer.person.name}"></dd>
 
-    <a class="btn btn-secondary" th:href="@{/Customer/{id}/Edit(id=*{id})}">Edit</a>
-    <a class="btn btn-danger" th:href="@{/Customer/{id}/Delete(id=*{id})}">Delete</a> <br>
+                <dt class="col-sm-3">Address:</dt>
+                <dd class="col-sm-9" th:text="${customer.address}"></dd>
 
-    <!--Username: <span th:text="${customer.person.username}"></span><br>-->
-    Name: <span th:text="${customer.person.name}"></span><br>
-    Address: <span th:text="${customer.address}"></span><br>
-    <!--Password: <span th:text="${customer.person.password}"></span><br>-->
-    CreditLine: <span th:text="${customer.creditline}"></span><br>
-    Balance: <span th:text="${customer.balance}"></span><br>
+                <dt class="col-sm-3">Credit-line:</dt>
+                <dd class="col-sm-9" th:text="${customer.creditline}"></dd>
 
-    <div th:if="${customer.clubMembership}">
-        Club Membership Join Date: <span th:text="${customer.clubMembership.joinDate}"></span><br>
+                <dt class="col-sm-3">Balance:</dt>
+                <dd class="col-sm-9" th:text="${'$' + customer.balance}"></dd>
+
+                <dt class="col-sm-3">Username:</dt>
+                <dd class="col-sm-9" th:text="${customer.person.username}"></dd>
+
+                <dt class="col-sm-3">Password:</dt>
+                <dd class="col-sm-9" th:text="${customer.person.password}"></dd>
+
+                <dt class="col-sm-3">Club Membership:</dt>
+                <dd class="col-sm-9" th:if="${customer.clubMembership}"
+                    th:text="${'Join Date: ' + customer.clubMembership.joinDate}"></dd>
+                <dd class="col-sm-9" th:unless="${customer.clubMembership}">No</dd>
+            </dl>
+
+            <h5 class="card-title">Interests</h5>
+            <b>Subject Areas:</b>
+            <span class="badge badge-secondary" th:each="sa : ${customer.subjectAreaInterests}" th:text="${sa.subjectArea.name}"></span>
+            <br>
+            <b>Model Types:</b>
+            <span class="badge badge-secondary" th:each="sa : ${customer.modelTypeInterests}" th:text="${sa.modelType.name}"></span>
+        </div>
     </div>
 
-    <h3>Interests</h3>
-    <b>Subject Areas:</b>
-    <span class="badge badge-secondary" th:each="sa : ${customer.subjectAreaInterests}" th:text="${sa.subjectArea.name}"></span>
     <br>
-    <b>Model Types:</b>
-    <span class="badge badge-secondary" th:each="sa : ${customer.modelTypeInterests}" th:text="${sa.modelType.name}"></span>
 
-    <div th:object="${sales}">
-        <div th:replace="Customer/Profile:: Sales"></div>
+    <div class="card" th:fragment="Sales">
+        <div class="card-header">Sales</div>
+
+        <div class="card-body">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th>Sale Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th class="shrinkcell">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sale : ${sales}"
+                    th:object="${sale}">
+                    <td th:text="*{saleDate}"></td>
+                    <td th:text="*{status}"></td>
+                    <td th:text="*{'$' + total}"></td>
+                    <td class="float-right text-nowrap">
+                        <a class="btn-sm btn-primary" th:href="@{/Sale/{saleID}(saleID=*{id})}">View</a>
+                        <a class="btn-sm btn-secondary" th:href="@{/Sale/{saleID}/Edit(saleID=*{id})}">Edit</a>
+                        <a class="btn-sm btn-danger" th:href="@{/Sale/{saleID}/Delete(saleID=*{id})}">Delete</a>
+                        <!--th:href="@{${#httpServletRequest.requestURI} + '/sales/' + *{id}}">View</a>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!--<script th:inline="javascript">-->
         <!--var customer = [[${customer}]];-->
         <!--var sales = [[${sales}]];-->
     <!--</script>-->
-</div>
-
-<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Sales">
-    <h3>Sales</h3>
-    <table class="table table-striped table-bordered">
-    <thead class="thead-dark">
-    <tr>
-        <th>Sale Date</th>
-        <th>Status</th>
-        <th>Total</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr th:each="sale : ${sales}"
-            th:object="${sale}">
-            <td th:text="*{saleDate}"></td>
-            <td th:text="*{status}"></td>
-            <td th:text="*{'$' + total}"></td>
-            <td>
-                <!--<div class="btn-group mr-2" role="group">-->
-                    <a class="btn btn-primary" th:href="@{/Sale/{saleID}(saleID=*{id})}">View</a>
-                    <a class="btn btn-secondary" th:href="@{/Sale/{saleID}/Edit(saleID=*{id})}">Edit</a>
-                    <a class="btn btn-danger" th:href="@{/Sale/{saleID}/Delete(saleID=*{id})}">Delete</a>
-
-                       <!--th:href="@{${#httpServletRequest.requestURI} + '/sales/' + *{id}}">View</a>-->
-                <!--</div>-->
-            </td>
-        </tr>
-    </tbody>
-    </table>
-
-    <!--<div class="list-group">-->
-        <!--<a class="list-group-item list-group-item-action"-->
-           <!--th:each="sale : ${sales}"-->
-           <!--th:object="${sale}"-->
-           <!--th:href="@{${#httpServletRequest.requestURI} + '/sales/' + *{id}}"-->
-           <!--th:text="*{saleDate}">2019-11-12-->
-        <!--</a>-->
-        <!--&lt;!&ndash;<div th:replace="Customer/Profile:: Sale"></div>&ndash;&gt;-->
-    <!--</div>-->
 </div>

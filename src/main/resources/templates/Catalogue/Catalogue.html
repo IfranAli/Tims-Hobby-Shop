@@ -1,38 +1,76 @@
 <div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Catalogue">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-sm">
+					Catalogue Information
+				</div>
+				<div class="col-sm">
+					<!--<ul class="nav float-right">-->
+						<!--<li class="nav-item">-->
+							<!--<a class="btn-sm btn-secondary" th:href="@{/Catalogue/{id}/Edit(id=*{id})}">Edit Catalogue</a>-->
+						<!--</li>-->
+						<!--<li class="nav-item">-->
+							<!--<a class="btn-sm btn-danger" th:href="@{/Catalogue/{id}/Delete(id=*{id})}">Delete Catalogue</a>-->
+						<!--</li>-->
+					<!--</ul>-->
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<dl class="row">
+				<dt class="col-sm-3">Company Name:</dt>
+				<dd class="col-sm-9" th:text="${catalogue.Supplier.companyName}"></dd>
 
-    Company Name: <span th:text="${catalogue.Supplier.companyName}"></span><br>
-    Address: <span th:text="${catalogue.Supplier.address}"></span><br>
-    Credit Line: <span th:text="${catalogue.Supplier.creditline}"></span><br>
-    Catalogue Publish Date: <span th:text="${catalogue.date_publish}"></span><br>
-    Total Catalogue Items: <span th:text="${#lists.size(catalogue.supplierItems)}"></span><br>
+				<dt class="col-sm-3">Address:</dt>
+				<dd class="col-sm-9" th:text="${catalogue.Supplier.address}"></dd>
 
-	<h3>Catalogue Items</h3>
-	<table class="table table-striped table-bordered table-sm">
-		<thead class="thead-dark">
-		<tr>
-			<th>Item Name</th>
-			<th>Description</th>
-			<th>Availability</th>
-			<th>Supplier Price</th>
-			<th>Actions</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr th:each=" c : ${catalogue.supplierItems}" th:object="${c}">
-				<td><a th:href="@{/Item/{id}(id=*{suppliedItem.id})}" th:text="*{suppliedItem.name}"></a></td>
-				<td th:text="*{suppliedItem.description}"></td>
-				<td th:text="*{suppliedItem.availability}"></td>
-				<td th:text="*{'$' + price}"></td>
-				<td class="text-nowrap">
-					<a class="btn-sm btn-primary" th:href="@{/Item/{id}(id=*{suppliedItem.id})}">View</a>
-					<a class="btn-sm btn-secondary" th:href="@{/Item/{id}/Edit(id=*{suppliedItem.id})}">Edit</a>
-					<a class="btn-sm btn-danger" th:href="@{/Item/{id}/Delete(id=*{suppliedItem.id})}">Delete</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+				<dt class="col-sm-3">Credit-line:</dt>
+				<dd class="col-sm-9" th:text="${catalogue.Supplier.creditline}"></dd>
 
-	<script th:inline="javascript">
-        // var supplier = [[${supplier}]];
-	</script>
+				<dt class="col-sm-3">Catalogue Publish Date:</dt>
+				<dd class="col-sm-9" th:text="${catalogue.date_publish}"></dd>
+
+				<dt class="col-sm-3">Total Catalogue Items:</dt>
+				<dd class="col-sm-9" th:text="${#lists.size(catalogue.supplierItems)}"></dd>
+			</dl>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="card">
+		<div class="card-header">Catalogue Items</div>
+
+		<div class="card-body">
+			<table class="table table-sm table-bordered">
+				<thead class="thead-light">
+				<tr>
+					<th>Item Name</th>
+					<th>Description</th>
+					<th>Availability</th>
+					<th>Supplier Price</th>
+					<th class="shrinkcell">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each=" c : ${catalogue.supplierItems}" th:object="${c}">
+					<td><a th:href="@{/Item/{id}(id=*{suppliedItem.id})}" th:text="*{suppliedItem.name}"></a></td>
+					<td th:text="*{suppliedItem.description}"></td>
+					<td th:text="*{suppliedItem.availability}"></td>
+					<td th:text="*{'$' + price}"></td>
+					<td class="float-right text-nowrap">
+						<a class="btn-sm btn-primary" th:href="@{/Item/{id}(id=*{suppliedItem.id})}">View</a>
+						<a class="btn-sm btn-secondary" th:href="@{/Item/{id}/Edit(id=*{suppliedItem.id})}">Edit</a>
+						<a class="btn-sm btn-danger" th:href="@{/Item/{id}/Delete(id=*{suppliedItem.id})}">Delete</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!--<script th:inline="javascript">-->
+        <!--var supplier = [[${supplier}]];-->
+	<!--</script>-->
 </div>

@@ -35,7 +35,7 @@ public class Sale {
     public void updateTotal() {
         double total = 0;
         for (SaleLineItem saleLineItem : sale_line_items) {
-            total += saleLineItem.getSale_price();
+            total += (saleLineItem.getSale_price() * saleLineItem.getQuantity());
         }
         this.total = (total - getDiscount());
     }

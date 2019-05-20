@@ -27,7 +27,7 @@
                 <th class="text-nowrap">Retail Price</th>
                 <th>Availability</th>
                 <th>Stock</th>
-                <th>Actions</th>
+                <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                 <td th:text="*{'$' + retailPrice}"></td>
                 <td th:text="${item.availability}"></td>
                 <td th:text="*{stock}"></td>
-                <td class="text-nowrap">
+                <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{Item/{id}(id=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{Item/{id}/Edit(id=*{id})}">Edit</a>
                     <a class="btn-sm btn-danger" th:href="@{Item/{id}/Delete(id=*{id})}">Delete</a>

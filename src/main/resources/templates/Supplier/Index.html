@@ -23,7 +23,7 @@
             <tr>
                 <th>Company Name</th>
                 <th>Address</th>
-                <th>Actions</th>
+                <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
                     <a th:href="@{/Supplier/{id}(id=*{id})}" th:text="*{CompanyName}"></a>
                 </td>
                 <td th:text="*{Address}"></td>
-                <td class="text-nowrap">
+                <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{Supplier/{id}(id=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{Supplier/{id}/Edit(id=*{id})}">Edit</a>
                     <a class="btn-sm btn-danger" th:href="@{Supplier/{id}/Delete(id=*{id})}">Delete</a>

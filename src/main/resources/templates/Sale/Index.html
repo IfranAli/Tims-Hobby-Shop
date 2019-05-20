@@ -24,18 +24,19 @@
                 <th>Order Date</th>
                 <th>Status</th>
                 <th>Total</th>
-                <th>Actions</th>
+                <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="c : ${sales}" th:object="${c}">
-                <td>
+                <td th:if="*{customer}">
                     <a th:href="@{/Customer/{id}(id=*{customer.id})}" th:text="*{customer.person.name}"></a>
                 </td>
+                <td th:unless="*{customer}" th:text="Unassigned"></td>
                 <td th:text="*{saleDate}"></td>
                 <td th:text="*{status}"></td>
                 <td th:text="*{'$' + total}"></td>
-                <td class="text-nowrap">
+                <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{/Sale/{saleID}(saleID=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{/Sale/{saleID}/Edit(saleID=*{id})}">Edit</a>
                     <a class="btn-sm btn-danger" th:href="@{/Sale/{saleID}/Delete(saleID=*{id})}">Delete</a>

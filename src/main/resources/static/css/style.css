@@ -24,6 +24,11 @@ header{
   max-width: 80% !important;
 }
 
+.shrinkcell {
+  width: 1px;
+  white-space: nowrap;
+}
+
 /* Add padding to container elements */
 .container {
   padding: 2.5em !important;

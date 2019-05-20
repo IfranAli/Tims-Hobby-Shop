@@ -25,7 +25,7 @@
                 <th>Company Name</th>
                 <th>Publish Date</th>
                 <th>#Items</th>
-                <th class="text-nowrap">Actions</th>
+                <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                 </td>
                 <td th:text="*{date_publish}"></td>
                 <td th:text="*{#lists.size(supplierItems)}"></td>
-                <td class="text-nowrap">
+                <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{Catalogue/{id}(id=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{Catalogue/{id}/Edit(id=*{id})}">Edit</a>
                     <a class="btn-sm btn-danger" th:href="@{Catalogue/{id}/Delete(id=*{id})}">Delete</a>

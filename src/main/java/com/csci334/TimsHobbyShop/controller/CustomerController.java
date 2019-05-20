@@ -134,6 +134,7 @@ public class CustomerController {
         model.addAttribute("Area", "Other");
         model.addAttribute("Sub_Page", "CustomerForm");
 
+        // TODO: THis no longer works and is crashing here, particularly setting subject and model areas/interests
         if (bindingResult.hasErrors()) return "Master";
 
         // Check password and confirm password match
@@ -203,6 +204,6 @@ public class CustomerController {
         customerRepository.save(customer);
 
         model.addAttribute("Sub_Page", "Login");
-        return "redirect:/Customer";
+        return "redirect:/Customer/" + customer.getId();
     }
 }
