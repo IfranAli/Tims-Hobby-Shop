@@ -2,7 +2,9 @@ package com.csci334.TimsHobbyShop.DTO;
 
 import com.csci334.TimsHobbyShop.model.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomerForm {
@@ -24,8 +26,8 @@ public class CustomerForm {
     @NotNull @Min(0)
     private double balance = 0;
 
-    private HashMap<String, Boolean> modelNames;
-    private HashMap<String, Boolean> subjectAreaNames;
+    private List<CustomerModelInterestDTO> modelNames = new ArrayList<>();
+    private List<CustomerSubjectInterestDTO> subjectAreaNames = new ArrayList<>();
 
     public CustomerForm() {}
 
@@ -40,17 +42,17 @@ public class CustomerForm {
 	}
 
 
-    public HashMap<String, Boolean> getModelNames() {
+    public List<CustomerModelInterestDTO> getModelNames() {
         return modelNames;
     }
-    public void setModelNames(HashMap<String, Boolean> modelNames) {
+    public void setModelNames(List<CustomerModelInterestDTO> modelNames) {
         this.modelNames = modelNames;
     }
 
-    public HashMap<String, Boolean> getSubjectAreaNames() {
+    public List<CustomerSubjectInterestDTO> getSubjectAreaNames() {
         return subjectAreaNames;
     }
-    public void setSubjectAreaNames(HashMap<String, Boolean> subjectAreaNames) {
+    public void setSubjectAreaNames(List<CustomerSubjectInterestDTO> subjectAreaNames) {
         this.subjectAreaNames = subjectAreaNames;
     }
 

@@ -1,6 +1,8 @@
 package com.csci334.TimsHobbyShop.controller;
 
 import com.csci334.TimsHobbyShop.DTO.CustomerForm;
+import com.csci334.TimsHobbyShop.DTO.CustomerModelInterestDTO;
+import com.csci334.TimsHobbyShop.DTO.CustomerSubjectInterestDTO;
 import com.csci334.TimsHobbyShop.model.*;
 import com.csci334.TimsHobbyShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,25 +76,27 @@ public class CustomerController {
 
     @RequestMapping(value = "/{cid}/Edit", method = RequestMethod.GET)
     public String EditCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
-
         Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
             CustomerForm customerForm = new CustomerForm();
 			customerForm.FromEntity(customer);
 
-			// TODO: Find a better way to pass customer model and subject area interests 
-			HashMap<String, Boolean> modelNames = new HashMap<>();
-			HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
+			// Gather Customer model type interests
+            List<CustomerModelInterestDTO> customerModelInterestDTOS = new ArrayList<>();
+            customerModelInterest_repository.getCustomerModelInterestById(customer.getId()).forEach(i -> {
+                customerModelInterestDTOS.add(new CustomerModelInterestDTO(i));
+            });
 
-            for (CustomerModelInterest customerModelInterest : customer.getModelTypeInterests()) {
-                modelNames.put(customerModelInterest.getModelType().getName(), true);
-            }
-            for (CustomerSubjectInterest customerSubjectInterest : customer.getSubjectAreaInterests()) {
-                subjectAreaNames.put(customerSubjectInterest.getSubjectArea().getName(), true);
-            }
-            customerForm.setModelNames(modelNames);
-            customerForm.setSubjectAreaNames(subjectAreaNames);
+            // Gather Customer Subject Area interests
+            List<CustomerSubjectInterestDTO> customerSubjectInterestDTOS = new ArrayList<>();
+            customerSubjectInterest_repository.getCustomerSubjectInterestById(customer.getId()).forEach( i -> {
+                customerSubjectInterestDTOS.add(new CustomerSubjectInterestDTO(i));
+            });
+
+            // Append Subject and Area Interests to the model.
+            customerForm.setModelNames(customerModelInterestDTOS);
+            customerForm.setSubjectAreaNames(customerSubjectInterestDTOS);
 
             model.addAttribute("customerForm", customerForm);
             return CreateCustomer(model);
@@ -106,22 +110,25 @@ public class CustomerController {
         model.addAttribute("Area", "Other");
         model.addAttribute("Sub_Page", "CustomerForm");
 
-		// TODO: Find a better way to pass model and subject area data
-		HashMap<String, Boolean> modelNames = new HashMap<>();
-		HashMap<String, Boolean> subjectAreaNames = new HashMap<>();
-		for (ModelType modelType : modelType_repository.findAll()) {
-			modelNames.put(modelType.getName(), false);
-		}
-		for (SubjectArea subjectArea : subjectArea_repository.findAll()) {
-			subjectAreaNames.put(subjectArea.getName(), false);
-		}
-		model.addAttribute("modelNames", modelNames);
-		model.addAttribute("subjectAreaNames", subjectAreaNames);
-
         if (!model.containsAttribute("customerForm")) {
 			CustomerForm customerForm = new CustomerForm();
-			customerForm.setSubjectAreaNames(subjectAreaNames);
-			customerForm.setModelNames(modelNames);
+
+            // Gather Customer model type interests
+            List<CustomerModelInterestDTO> customerModelInterestDTOS = new ArrayList<>();
+            customerModelInterest_repository.getCustomerModelInterestById(-1L).forEach(i -> {
+                customerModelInterestDTOS.add(new CustomerModelInterestDTO(i));
+            });
+
+            // Gather Customer Subject Area interests
+            List<CustomerSubjectInterestDTO> customerSubjectInterestDTOS = new ArrayList<>();
+            customerSubjectInterest_repository.getCustomerSubjectInterestById(-1L).forEach( i -> {
+                customerSubjectInterestDTOS.add(new CustomerSubjectInterestDTO(i));
+            });
+
+            // Append Subject and Area Interests to the model.
+            customerForm.setModelNames(customerModelInterestDTOS);
+            customerForm.setSubjectAreaNames(customerSubjectInterestDTOS);
+
             model.addAttribute("title", "Create Customer");
             model.addAttribute("customerForm", customerForm);
         }
@@ -134,8 +141,7 @@ public class CustomerController {
         model.addAttribute("Area", "Other");
         model.addAttribute("Sub_Page", "CustomerForm");
 
-        // TODO: THis no longer works and is crashing here, particularly setting subject and model areas/interests
-        if (bindingResult.hasErrors()) return "Master";
+        if (bindingResult.hasErrors()) return CreateCustomer(model);
 
         // Check password and confirm password match
 //        if (!form.getPassword().equals(form.getPasswordConfirm())) {
@@ -177,33 +183,34 @@ public class CustomerController {
         customer.setCreditline(form.getCreditline());
         customer.setPerson(person);
 
-		// TODO: Find a better way to pass model and subject area data
+        // Update customer interests
+        // Deletes old interests and adds new ones.
         customerModelInterest_repository.deleteByCustomerID(customer.getId());
+        customerSubjectInterest_repository.deleteByCustomerID(customer.getId());
         ArrayList<CustomerModelInterest> customerModelInterests = new ArrayList<>();
-        for (Map.Entry<String, Boolean> e : form.getModelNames().entrySet()) {
-            if(e.getValue() != null && e.getValue()) {
-                CustomerModelInterest customerModelInterest = new CustomerModelInterest();
-                customerModelInterest.setCustomerWithModelInterest(customer);
-                customerModelInterest.setModelType(modelType_repository.findByName(e.getKey()));
-                customerModelInterests.add(customerModelInterest);
+        ArrayList<CustomerSubjectInterest> customerSubjectInterests = new ArrayList<>();
+
+        for (CustomerModelInterestDTO dto : form.getModelNames()) {
+            if (dto.getActive()) {
+                CustomerModelInterest modelInterest = new CustomerModelInterest();
+                modelInterest.setCustomerWithModelInterest(customer);
+                modelInterest.setModelType(modelType_repository.findById(dto.getModelTypeID()).get());
+                customerModelInterests.add(modelInterest);
+            }
+        }
+        for (CustomerSubjectInterestDTO dto : form.getSubjectAreaNames()) {
+            if (dto.getActive()) {
+                CustomerSubjectInterest subjectInterest = new CustomerSubjectInterest();
+                subjectInterest.setCustomerWithSubjectInterest(customer);
+                subjectInterest.setSubjectArea(subjectArea_repository.findById(dto.getSubjectAreaID()).get());
+                customerSubjectInterests.add(subjectInterest);
             }
         }
 
-        customerSubjectInterest_repository.deleteByCustomerID(customer.getId());
-        ArrayList<CustomerSubjectInterest> customerSubjectInterests = new ArrayList<>();
-        for (Map.Entry<String, Boolean> e : form.getSubjectAreaNames().entrySet()) {
-            if(e.getValue() != null && e.getValue()) {
-                CustomerSubjectInterest customerSubjectInterest = new CustomerSubjectInterest();
-                customerSubjectInterest.setSubjectArea(subjectArea_repository.findByName(e.getKey()));
-                customerSubjectInterest.setCustomerWithSubjectInterest(customer);
-                customerSubjectInterests.add(customerSubjectInterest);
-            }
-        }
         customer.setModelTypeInterests(customerModelInterests);
         customer.setSubjectAreaInterests(customerSubjectInterests);
         customerRepository.save(customer);
 
-        model.addAttribute("Sub_Page", "Login");
         return "redirect:/Customer/" + customer.getId();
     }
 }

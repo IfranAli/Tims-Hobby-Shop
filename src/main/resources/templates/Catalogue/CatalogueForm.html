@@ -1,0 +1,211 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="CatalogueForm">
+    <form action="#" th:action="@{/Catalogue/Create}" th:object="${catalogueForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Catalogue ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Publish Date</label>
+            <input th:field="*{date_publish}" type="date" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('date_publish')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('date_publish')}" th:errors="*{date_publish}" class="invalid-feedback"></div>
+        </div>
+
+        <h2>Catalogue Items</h2>
+        <hr>
+
+        <div class="float-right">
+            <button class="btn btn-primary" type="button" onclick="showModal()">Add Catalogue Item</button>
+        </div><br>
+
+        <br>
+        <table id="table_items" class="table table-striped table-bordered table-sm nosort">
+        <!--<table id="table_items" class="table table-striped table-bordered table-sm">-->
+            <thead class="thead-dark">
+            <tr>
+                <th class="shrinkcell">ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Supplier Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s, i : *{supplierItems}"
+				th:itemId="*{supplierItems[__${i.index}__].itemId}"
+				th:index="${i.index}">
+                <input th:field="*{supplierItems[__${i.index}__].supplierItemId}" class="d-none"/>
+                <input th:field="*{supplierItems[__${i.index}__].itemId}" class="d-none"/>
+                <input th:field="*{supplierItems[__${i.index}__].name}" class="d-none"/>
+                <input th:field="*{supplierItems[__${i.index}__].description}" class="d-none"/>
+                <input th:field="*{supplierItems[__${i.index}__].supplier_price}" class="d-none"/>
+
+                <td th:text="*{supplierItems[__${i.index}__].itemId}" /></td>
+                <td th:text="*{supplierItems[__${i.index}__].name}" /></td>
+                <td th:text="*{supplierItems[__${i.index}__].description}" /></td>
+                <td th:text="*{'$' + supplierItems[__${i.index}__].supplier_price}" /></td>
+                <td>
+                    <button type="button" class="btn-sm btn-danger" data-dismiss="modal"
+                            th:onclick="|removeItem(${i.index}, *{supplierItems[__${i.index}__].itemId})|">Remove</button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="itemSelectModal" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="itemSelectModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Add Catalogue Item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="text" id="modal_supplier_price" class="form-control" value="1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">Supplier Price</span>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead class="thead-dark">
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Retail Price</th>
+                                <th>Actions</th>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${items}" th:object="${item}">
+                                    <td th:text="*{name}"></td>
+                                    <td th:text="*{description}"></td>
+                                    <td th:text="*{'$' + retail_price}"></td>
+                                    <td>
+                                        <button type="button" class="btn-sm btn-primary" data-dismiss="modal" th:onclick="|addItem('*{id}')|">Add</button>
+                                        <a class="btn-sm btn-secondary" target="_blank" th:href="@{/Item/{id}(id=*{id})}">Info</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            var items = [[${items}]];
+            var supplierItems = [[*{supplierItems}]];
+
+            var items_total = supplierItems.length;
+            form = $('form');
+            table_items = $('#table_items');
+
+            function addItem(itemId, supplier_price = null, supplierId = null) {
+                itemId = parseInt(itemId);
+                var item = items.find(function(e) { return e.id === itemId });
+                if (supplier_price == null) {
+                    supplier_price = $("#modal_supplier_price").val();
+                }
+                var row = document.createElement("tr");
+                var data = "<td>" + item.id + "</td>" + "<td>" + item.name + "</td>" + "<td>" + item.description + "</td>" +
+                    "<td>$" + supplier_price + "</td>" +
+                    "<td><button type='button' class='btn-sm btn-danger' data-dismiss='modal' " +
+                    "onclick=removeItem(" + items_total + "," + item.id + ")>Remove</button></td>";
+
+                row.setAttribute("itemId", item.id);
+                row.setAttribute("index", items_total);
+                row.innerHTML = data.trim();
+                table_items.append(row);
+
+                // supplierItemId
+                if (supplierId != null) {
+                    row = document.createElement("input");
+                    row.setAttribute("class", "d-none");
+                    row.setAttribute("id", "supplierItems" + items_total + ".supplierItemId");
+                    row.setAttribute("name", "supplierItems[" + items_total + "].supplierItemId");
+                    row.setAttribute("value", supplierId);
+                    form.append(row);
+                }
+
+                // Item ID
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "supplierItems" + items_total + ".itemId");
+                row.setAttribute("name", "supplierItems[" + items_total + "].itemId");
+                row.setAttribute("value", item.id);
+                form.append(row);
+
+                // name
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "supplierItems" + items_total + ".name");
+                row.setAttribute("name", "supplierItems[" + items_total + "].name");
+                row.setAttribute("value", item.name);
+                form.append(row);
+
+                // description
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "supplierItems" + items_total + ".description");
+                row.setAttribute("name", "supplierItems[" + items_total + "].description");
+                row.setAttribute("value", item.description);
+                form.append(row);
+
+                // supplier_price
+                row = document.createElement("input");
+                row.setAttribute("class", "d-none");
+                row.setAttribute("id", "supplierItems" + items_total + ".supplier_price");
+                row.setAttribute("name", "supplierItems[" + items_total + "].supplier_price");
+                row.setAttribute("value", supplier_price);
+                form.append(row);
+
+                items_total++;
+            }
+
+            // After removing an item from the table,
+            // the indexes need to be rebuilt so there are no gaps.
+            function removeItem(index, itemId) {
+                // Take note of the supplier itemIds and prices.
+                var supplierItemIds = $("input[id$='.supplierItemId'")
+                var supplierItemPrices = $("input[id$='.supplier_price'")
+
+                // Remove the item by index from data and the display table.
+                $("input[id^='supplierItems" + index + "']").remove();
+                $("#table_items tr[itemId=" + itemId + "]").remove();
+
+                // Get the remaining rows.
+                var rows = $("#table_items tr[itemId]")
+
+                $("input[id^='supplierItems'").remove();
+                $("#table_items tr[itemId").remove();
+
+				items_total = 0;
+				for (var i=0; i < rows.length; i++) {
+				    // Want to keep the supplierItem ID if there was one.
+                    var index = rows[i].getAttribute('index');
+				    var iid = supplierItemIds[index];
+				    var iprice = supplierItemPrices[index];
+				    if (iid) {
+				        addItem(rows[i].getAttribute('itemId'), iprice.value, iid.value)
+                    } else {
+                        addItem(rows[i].getAttribute('itemId'), iprice.value);
+                    }
+				}
+            }
+
+            function showModal() {
+                $("#itemSelectModal").modal("show");
+            }
+
+            $("document").ready(function () {
+                $("#add_item_btn").onclick = showModal;
+            })
+        </script>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

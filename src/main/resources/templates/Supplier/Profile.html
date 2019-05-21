@@ -32,6 +32,28 @@
 	</div>
 
 	<br>
+	<div class="card">
+		<div class="card-header">Contact Person</div>
+		<div class="card-body">
+			<div th:if="${supplier.contactPerson}" th:object="${supplier.contactPerson.person}">
+				<dl class="row">
+					<dt class="col-sm-3">Name:</dt>
+					<dd class="col-sm-9" th:text="*{name}"></dd>
+
+					<dt class="col-sm-3">Phone:</dt>
+					<dd class="col-sm-9" th:text="*{phone}"></dd>
+
+					<dt class="col-sm-3">Email:</dt>
+					<dd class="col-sm-9" th:text="*{email}"></dd>
+				</dl>
+			</div>
+			<div th:unless="${supplier.contactPerson}">
+				<h5 class="card-title">No contact person</h5>
+			</div>
+		</div>
+	</div>
+
+	<br>
 
 	<div class="card">
 		<div class="card-header">Available Supplier Catalogues</div>

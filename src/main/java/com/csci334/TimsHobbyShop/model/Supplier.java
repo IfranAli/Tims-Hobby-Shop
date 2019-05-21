@@ -18,7 +18,7 @@ public class Supplier{
     public void setId(Long id) { this.id = id; }
 
     public String getCompanyName() { return companyName; }
-    public void setCompanyName(String name) { this.companyName= companyName; }
+    public void setCompanyName(String name) { this.companyName= name; }
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
@@ -26,9 +26,24 @@ public class Supplier{
     public String getCreditline() { return creditline; }
     public void setCreditline(String creditline) { this.creditline = creditline; }
 
-    public List<Catalogue> getCatalogues() { return catalogues; }
+    public void setCatalogues(List<Catalogue> catalogues) {
+        this.catalogues = catalogues;
+    }
+    public List<Catalogue> getCatalogues() { return catalogues;
+
+    }
+
+    public ContactPerson getContactPerson() {
+        return contactPerson;
+    }
+    public void setContactPerson(ContactPerson contactPerson) {
+        this.contactPerson = contactPerson;
+    }
 
     @OneToMany(mappedBy = "catalogueSupplier", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Catalogue> catalogues;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "supplier")
+    private ContactPerson contactPerson;
 }

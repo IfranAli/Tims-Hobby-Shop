@@ -1,0 +1,36 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="SupplierForm">
+    <form action="#" th:action="@{/Supplier/Create}" th:object="${supplierForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Supplier ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Company Name</label>
+            <input th:field="*{companyName}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('companyName')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Address</label>
+            <input th:field="*{address}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('address')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Credit Line</label>
+            <input th:field="*{creditline}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('creditline')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('creditline')}" th:errors="*{creditline}" class="invalid-feedback"></div>
+        </div>
+
+        <!--<script th:inline="javascript">-->
+        <!--var modelNames = [[${modelNames}]];-->
+        <!--var subjectAreaNames = [[${subjectAreaNames}]];-->
+        <!--</script>-->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

@@ -18,8 +18,10 @@ public class SupplierItem{
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-
     public Catalogue getCatalogue() { return itemCatalogue; }
+    public void setCatalogue(Catalogue itemCatalogue) {
+        this.itemCatalogue = itemCatalogue;
+    }
 
     public Item getSuppliedItem() {
         return suppliedItem;

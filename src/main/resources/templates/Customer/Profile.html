@@ -22,6 +22,12 @@
                 <dt class="col-sm-3">Name:</dt>
                 <dd class="col-sm-9" th:text="${customer.person.name}"></dd>
 
+                <dt class="col-sm-3">Phone:</dt>
+                <dd class="col-sm-9" th:text="${customer.person.phone}"></dd>
+
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9" th:text="${customer.person.email}"></dd>
+
                 <dt class="col-sm-3">Address:</dt>
                 <dd class="col-sm-9" th:text="${customer.address}"></dd>
 
@@ -31,11 +37,11 @@
                 <dt class="col-sm-3">Balance:</dt>
                 <dd class="col-sm-9" th:text="${'$' + customer.balance}"></dd>
 
-                <dt class="col-sm-3">Username:</dt>
-                <dd class="col-sm-9" th:text="${customer.person.username}"></dd>
+                <!--<dt class="col-sm-3">Username:</dt>-->
+                <!--<dd class="col-sm-9" th:text="${customer.person.username}"></dd>-->
 
-                <dt class="col-sm-3">Password:</dt>
-                <dd class="col-sm-9" th:text="${customer.person.password}"></dd>
+                <!--<dt class="col-sm-3">Password:</dt>-->
+                <!--<dd class="col-sm-9" th:text="${customer.person.password}"></dd>-->
 
                 <dt class="col-sm-3">Club Membership:</dt>
                 <dd class="col-sm-9" th:if="${customer.clubMembership}"
