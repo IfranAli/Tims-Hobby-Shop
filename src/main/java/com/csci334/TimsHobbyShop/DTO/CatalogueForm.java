@@ -10,13 +10,18 @@ import java.util.ArrayList;
 public class CatalogueForm {
     private Long id;
     private Date date_publish;
+    @NotNull
+    private Long supplierId;
 
     private ArrayList<SupplierItemDTO> supplierItems = new ArrayList<>();
 
-    public CatalogueForm() {};
+    public CatalogueForm() {
+        date_publish = new java.sql.Date(new java.util.Date().getTime());
+    }
     public CatalogueForm(Catalogue catalogue) {
         this.id = catalogue.getId();
         this.date_publish = catalogue.getDate_publish();
+        this.supplierId = catalogue.getSupplier().getId();
         catalogue.getSupplierItems().forEach(i -> supplierItems.add(new SupplierItemDTO(i)));
     }
 
@@ -25,6 +30,13 @@ public class CatalogueForm {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 
     public Date getDate_publish() {

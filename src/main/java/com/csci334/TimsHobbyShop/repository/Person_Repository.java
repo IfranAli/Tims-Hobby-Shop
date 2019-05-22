@@ -11,4 +11,8 @@ public interface Person_Repository extends CrudRepository<Person, Long> {
 
     @Query(value = "SELECT * FROM person p WHERE p.username = :username", nativeQuery = true)
     Person findByUsername(@Param("username") String username);
+
+
+    @Query(value = "SELECT * FROM person p WHERE p.role = 'EMPLOYEE' or p.role = 'ADMIN'", nativeQuery = true)
+    List<Person> GetAllEmployees();
 }

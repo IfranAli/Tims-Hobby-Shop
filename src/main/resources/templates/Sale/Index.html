@@ -20,6 +20,7 @@
         <table class="table table-striped table-bordered table-sm">
             <thead class="thead-dark">
             <tr>
+                <th class="shrinkcell">ID</th>
                 <th>Customer</th>
                 <th>Order Date</th>
                 <th>Status</th>
@@ -29,6 +30,7 @@
             </thead>
             <tbody>
             <tr th:each="c : ${sales}" th:object="${c}">
+                <td th:text="*{id}"></td>
                 <td th:if="*{customer}">
                     <a th:href="@{/Customer/{id}(id=*{customer.id})}" th:text="*{customer.person.name}"></a>
                 </td>

@@ -9,6 +9,7 @@ import com.csci334.TimsHobbyShop.model.ModelType;
 import com.csci334.TimsHobbyShop.model.SubjectArea;
 import com.csci334.TimsHobbyShop.repository.Item_Repository;
 import com.csci334.TimsHobbyShop.repository.ModelType_Repository;
+import com.csci334.TimsHobbyShop.repository.Store_Repository;
 import com.csci334.TimsHobbyShop.repository.SubjectArea_Repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,8 @@ public class ItemController {
     private ModelType_Repository modelType_repository;
     @Autowired
     private SubjectArea_Repository subjectArea_repository;
+    @Autowired
+    private Store_Repository store_repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
@@ -92,6 +95,7 @@ public class ItemController {
         model.addAttribute("Sub_Page", "ItemForm");
         model.addAttribute("modelTypes", modelType_repository.findAll());
         model.addAttribute("subjectAreaNames", subjectArea_repository.findAll());
+        model.addAttribute("stores", store_repository.findAll());
         if (!model.containsAttribute("itemForm")) {
             model.addAttribute("title", "Create Item");
             model.addAttribute("itemForm", new ItemForm());
@@ -122,6 +126,7 @@ public class ItemController {
         item.setDescription(form.getDescription());
         item.setName(form.getName());
         item.setAvailability(form.getAvailability());
+        item.setStore(store_repository.findById(form.getStoreId()).get());
 
         Optional<ModelType> optionalModelType = modelType_repository.findById(form.getModel_type());
         Optional<SubjectArea> optionalSubjectArea = subjectArea_repository.findById(form.getModel_subject_area());

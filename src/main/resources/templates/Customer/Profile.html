@@ -19,6 +19,9 @@
         </div>
         <div class="card-body">
             <dl class="row">
+                <dt class="col-sm-3">Customer ID:</dt>
+                <dd class="col-sm-9" th:text="${customer.id}"></dd>
+
                 <dt class="col-sm-3">Name:</dt>
                 <dd class="col-sm-9" th:text="${customer.person.name}"></dd>
 
@@ -36,12 +39,6 @@
 
                 <dt class="col-sm-3">Balance:</dt>
                 <dd class="col-sm-9" th:text="${'$' + customer.balance}"></dd>
-
-                <!--<dt class="col-sm-3">Username:</dt>-->
-                <!--<dd class="col-sm-9" th:text="${customer.person.username}"></dd>-->
-
-                <!--<dt class="col-sm-3">Password:</dt>-->
-                <!--<dd class="col-sm-9" th:text="${customer.person.password}"></dd>-->
 
                 <dt class="col-sm-3">Club Membership:</dt>
                 <dd class="col-sm-9" th:if="${customer.clubMembership}"
@@ -61,7 +58,20 @@
     <br>
 
     <div class="card" th:fragment="Sales">
-        <div class="card-header">Sales</div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm">
+                    Sales
+                </div>
+                <div class="col-sm">
+                    <ul class="nav float-right">
+                        <li class="nav-item">
+                            <a class="btn-sm btn-secondary" th:href="@{/Sale/Create/{id}(id=*{id})}">Add Sale</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <div class="card-body">
             <table class="table table-sm table-bordered">
@@ -83,16 +93,10 @@
                         <a class="btn-sm btn-primary" th:href="@{/Sale/{saleID}(saleID=*{id})}">View</a>
                         <a class="btn-sm btn-secondary" th:href="@{/Sale/{saleID}/Edit(saleID=*{id})}">Edit</a>
                         <a class="btn-sm btn-danger" th:href="@{/Sale/{saleID}/Delete(saleID=*{id})}">Delete</a>
-                        <!--th:href="@{${#httpServletRequest.requestURI} + '/sales/' + *{id}}">View</a>-->
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
-    <!--<script th:inline="javascript">-->
-        <!--var customer = [[${customer}]];-->
-        <!--var sales = [[${sales}]];-->
-    <!--</script>-->
 </div>

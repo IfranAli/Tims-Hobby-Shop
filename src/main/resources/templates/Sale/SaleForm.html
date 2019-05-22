@@ -8,8 +8,17 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Customer</label>
+            <select th:field="*{customerId}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('customerId')} ? is-invalid : is-valid">
+                <option value="">Unassigned</option>
+                <option th:each="p : ${customers}" th:value="${p.id}" th:text="${p.id + '. ' + p.person.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-sm-2 col-form-label">Total</label>
-            <input th:field="*{total}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('total')} ? is-invalid : is-valid">
+            <input readonly th:field="*{total}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('total')} ? is-invalid : is-valid">
             <div th:if="${#fields.hasErrors('total')}" th:errors="*{total}" class="invalid-feedback"></div>
         </div>
 

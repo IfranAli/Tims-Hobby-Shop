@@ -3,8 +3,6 @@ package com.csci334.TimsHobbyShop.controller;
 import com.csci334.TimsHobbyShop.DTO.ItemDTO;
 import com.csci334.TimsHobbyShop.DTO.SaleForm;
 import com.csci334.TimsHobbyShop.DTO.SaleLineItemDTO;
-import com.csci334.TimsHobbyShop.api.Item_api;
-import com.csci334.TimsHobbyShop.api.SaleLineItem_api;
 import com.csci334.TimsHobbyShop.model.Sale;
 import com.csci334.TimsHobbyShop.model.SaleLineItem;
 import com.csci334.TimsHobbyShop.repository.Customer_Repository;
@@ -17,10 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping(path="/Sale")
@@ -33,10 +30,6 @@ public class SaleController {
     private Sale_Repository sale_repository;
     @Autowired
     private SaleLineItem_Repository saleLineItem_repository;
-    @Autowired
-    private Item_api item_api;
-    @Autowired
-    private SaleLineItem_api saleLineItem_api;
 
     @GetMapping()
     public String index(Model model) {
@@ -54,7 +47,7 @@ public class SaleController {
         if (optionalSale.isPresent()) {
             Sale sale = optionalSale.get();
             model.addAttribute("sale", sale);
-            model.addAttribute("title", "Sale");
+            model.addAttribute("title", "Sale " + sale.getSaleDate());
             model.addAttribute("Area", "Sale");
             model.addAttribute("Sub_Page", "Sale");
         }
@@ -93,6 +86,14 @@ public class SaleController {
         return "redirect:/Sale";
     }
 
+    @RequestMapping(value = "/Create/{id}", method = RequestMethod.GET)
+    public String RenderSaleCreatePageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
+        SaleForm saleForm = new SaleForm();
+        saleForm.setCustomerId(id);
+        model.addAttribute("saleForm", saleForm);
+        return CreateSale(model);
+    }
+
     @GetMapping("/Create")
     public String CreateSale(Model model) {
         model.addAttribute("title", "Edit Sale");
@@ -102,6 +103,7 @@ public class SaleController {
         ArrayList<ItemDTO> itemDTOs = new ArrayList<>();
         item_repository.findAll().forEach(i -> itemDTOs.add(new ItemDTO(i)));
         model.addAttribute("items", itemDTOs);
+        model.addAttribute("customers", customerRepository.findAll());
 
         if (!model.containsAttribute("saleForm")) {
             model.addAttribute("title", "Create Sale");
@@ -132,6 +134,11 @@ public class SaleController {
         sale.setDiscount(form.getDiscount());
         sale.setStatus(form.getStatus());
         sale.setSaleDate(form.getSale_date());
+        if (form.getCustomerId() != null) {
+            sale.setCustomer(customerRepository.findById(form.getCustomerId()).get());
+        } else {
+            sale.setCustomer(null);
+        }
 
         ArrayList<SaleLineItem> saleLineItems = new ArrayList<>();
         saleLineItem_repository.deleteAllBySaleID(form.getId());

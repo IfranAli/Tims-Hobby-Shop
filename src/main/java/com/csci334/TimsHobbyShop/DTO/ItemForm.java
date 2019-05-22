@@ -20,6 +20,8 @@ public class ItemForm {
     private long model_type;
     @NotNull
     private long model_subject_area;
+    @NotNull
+    private long storeId;
 
     public ItemForm() {}
 
@@ -33,6 +35,7 @@ public class ItemForm {
 		this.setAvailability(i.getAvailability());
 		this.setModel_type(i.getItemModelType().getId());
 		this.setModel_subject_area(i.getItemSubjectArea().getId());
+		this.setStoreId(i.getStore().getId());
 	}
 
     public Long getId() {
@@ -40,6 +43,13 @@ public class ItemForm {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getStoreId() {
+        return storeId;
+    }
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
     }
 
     public long getModel_type() {

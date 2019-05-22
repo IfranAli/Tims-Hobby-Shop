@@ -1,0 +1,28 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="StoreForm">
+    <form action="#" th:action="@{/Store/Create}" th:object="${storeForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Store ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Store Name</label>
+            <input th:field="*{name}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('name')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Address</label>
+            <input th:field="*{address}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('address')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+	<script th:inline="javascript">
+		var store = [[${storeForm}]];
+	</script>
+</div>

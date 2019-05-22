@@ -1,0 +1,70 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Store">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-sm">
+					Store Information
+				</div>
+				<div class="col-sm">
+					<ul class="nav float-right">
+						<li class="nav-item">
+							<a class="btn-sm btn-secondary" th:href="@{/Store/{id}/Edit(id=*{id})}">Edit Store</a>
+						</li>
+						<li class="nav-item">
+							<a class="btn-sm btn-danger" th:href="@{/Store/{id}/Delete(id=*{id})}">Delete Store</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<dl class="row">
+				<dt class="col-sm-3">Store Name:</dt>
+				<dd class="col-sm-9" th:text="*{store.name}"></dd>
+
+				<dt class="col-sm-3">Address:</dt>
+				<dd class="col-sm-9" th:text="*{store.address}"></dd>
+
+				<dt class="col-sm-3">Total Store Items:</dt>
+				<dd class="col-sm-9" th:text="*{#lists.size(store.store_items)}"></dd>
+			</dl>
+		</div>
+	</div>
+
+	<br>
+
+	<!--<div class="card">-->
+		<!--<div class="card-header">Store Items</div>-->
+
+		<!--<div class="card-body">-->
+			<!--<table class="table table-sm table-bordered">-->
+				<!--<thead class="thead-light">-->
+				<!--<tr>-->
+					<!--<th>Item Name</th>-->
+					<!--<th>Description</th>-->
+					<!--<th>Availability</th>-->
+					<!--<th>Supplier Price</th>-->
+					<!--<th class="shrinkcell">Actions</th>-->
+				<!--</tr>-->
+				<!--</thead>-->
+				<!--<tbody>-->
+				<!--<tr th:each=" c : ${catalogue.supplierItems}" th:object="${c}">-->
+					<!--<td><a th:href="@{/Item/{id}(id=*{suppliedItem.id})}" th:text="*{suppliedItem.name}"></a></td>-->
+					<!--<td th:text="*{suppliedItem.description}"></td>-->
+					<!--<td th:text="*{suppliedItem.availability}"></td>-->
+					<!--<td th:text="*{'$' + price}"></td>-->
+					<!--<td class="float-right text-nowrap">-->
+						<!--<a class="btn-sm btn-primary" th:href="@{/Item/{id}(id=*{suppliedItem.id})}">View</a>-->
+						<!--<a class="btn-sm btn-secondary" th:href="@{/Item/{id}/Edit(id=*{suppliedItem.id})}">Edit</a>-->
+						<!--<a class="btn-sm btn-danger" th:href="@{/Item/{id}/Delete(id=*{suppliedItem.id})}">Delete</a>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--</tbody>-->
+			<!--</table>-->
+		<!--</div>-->
+	<!--</div>-->
+
+	<!--<script th:inline="javascript">-->
+        <!--var supplier = [[${supplier}]];-->
+	<!--</script>-->
+</div>

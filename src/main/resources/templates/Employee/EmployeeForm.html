@@ -1,0 +1,69 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="EmployeeForm">
+    <form action="#" th:action="@{/Employee/Create}" th:object="${employeeForm}" method="post" novalidate>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Username</label>
+            <input th:field="*{username}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('username')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Employee ID</label>
+            <input th:field="*{employeeID}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('employeeID')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('employeeID')}" th:errors="*{employeeID}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <input th:field="*{name}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('name')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email</label>
+            <input th:field="*{email}" type="email" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('email')} ? is-invalid : is-valid" placeholder="name@example.com">
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Phone</label>
+            <input th:field="*{phone}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('phone')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="invalid-feedback"></div>
+        </div>
+
+
+		<!--
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Address</label>
+            <input th:field="*{address}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('address')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="invalid-feedback"></div>
+        </div>
+		-->
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password</label>
+            <input th:name="password" th:value="*{password}" type="password" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('password')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password Confirm</label>
+            <input th:name="passwordConfirm" th:value="*{passwordConfirm}" type="password" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('passwordConfirm')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Role</label>
+            <select th:field="*{role}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('role')} ? is-invalid : is-valid">
+                <option value="ADMIN">ADMIN</option>
+                <option value="EMPLOYEE">EMPLOYEE</option>
+            </select>
+            <div th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+	<script th:inline="javascript">
+		var employee = [[${employeeForm}]];
+	</script>
+</div>

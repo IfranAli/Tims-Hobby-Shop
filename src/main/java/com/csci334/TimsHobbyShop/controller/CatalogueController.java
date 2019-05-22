@@ -30,6 +30,8 @@ public class CatalogueController {
     private Item_Repository item_repository;
     @Autowired
     private SupplierItem_Repository supplierItem_repository;
+    @Autowired
+    private Supplier_Repository supplier_Repository;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
@@ -89,6 +91,7 @@ public class CatalogueController {
         ArrayList<ItemDTO> itemDTOs = new ArrayList<>();
         item_repository.findAll().forEach(i -> itemDTOs.add(new ItemDTO(i)));
         model.addAttribute("items", itemDTOs);
+        model.addAttribute("suppliers", supplier_Repository.findAll());
 
         if (!model.containsAttribute("catalogueForm")) {
             CatalogueForm catalogueForm = new CatalogueForm();
@@ -118,6 +121,8 @@ public class CatalogueController {
         }
 
         catalogue.setDate_publish(form.getDate_publish());
+        catalogue.setSupplier(supplier_Repository.findById(form.getSupplierId()).get());
+
         List<SupplierItem> supplierItems_old = catalogue.getSupplierItems();
         List<SupplierItem> supplierItems_new = new ArrayList<>();
         for (SupplierItemDTO supplierItemDTO : form.getSupplierItems()) {
@@ -135,8 +140,10 @@ public class CatalogueController {
             supplierItem_repository.save(i);
             supplierItems_new.add(i);
         }
-        supplierItems_old.removeAll(supplierItems_new);
-        supplierItems_old.forEach(supplierItem -> supplierItem_repository.delete(supplierItem));
+        if (supplierItems_old != null && !supplierItems_old.isEmpty()) {
+            supplierItems_old.removeAll(supplierItems_new);
+            supplierItems_old.forEach(supplierItem -> supplierItem_repository.delete(supplierItem));
+        }
         catalogue.setSupplierItems(supplierItems_new);
         catalogue_Repository.save(catalogue);
 

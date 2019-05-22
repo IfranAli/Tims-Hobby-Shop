@@ -21,8 +21,11 @@ public class Catalogue {
     public void setDate_publish(Date date_publish) {this.date_publish = date_publish;}
 
     public Supplier getSupplier() { return catalogueSupplier; }
+    public void setSupplier(Supplier supplier) {
+        this.catalogueSupplier = supplier;
+    }
 
-	public List<SupplierItem> getSupplierItems() { return supplierItems; }
+    public List<SupplierItem> getSupplierItems() { return supplierItems; }
     public void setSupplierItems(List<SupplierItem> supplierItems) {
         this.supplierItems = supplierItems;
     }

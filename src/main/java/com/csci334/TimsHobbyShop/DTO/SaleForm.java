@@ -17,6 +17,8 @@ public class SaleForm {
     @NotNull @Min(0)
     private double discount;
 
+    private Long customerId;
+
     private Long id;
     private double total;
 
@@ -36,6 +38,9 @@ public class SaleForm {
         setDiscount(i.getDiscount());
         setStatus(i.getStatus());
         setSale_date(i.getSaleDate());
+        if (i.getCustomer() != null) {
+            setCustomerId(i.getCustomer().getId());
+        }
 	}
 
     public ArrayList<SaleLineItemDTO> getSaleLineItemDTOs() {
@@ -43,6 +48,13 @@ public class SaleForm {
     }
     public void setSaleLineItemDTOs(ArrayList<SaleLineItemDTO> saleLineItemDTOs) {
         this.saleLineItemDTOs = saleLineItemDTOs;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Date getSale_date() {

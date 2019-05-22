@@ -44,6 +44,13 @@ public class Item {
     public List<SupplierItem> getSuppliers() { return suppliers; }
     public List<Review> getItemReviews() { return itemReviews; }
 
+    public Store getStore() {
+        return store;
+    }
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL) @JsonIgnore
     private List<SaleLineItem> sale_line_items;
 
@@ -58,4 +65,7 @@ public class Item {
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_subject_area_Id")
     private SubjectArea itemSubjectArea;
+
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "fk_store_id")
+    private Store store;
 }
