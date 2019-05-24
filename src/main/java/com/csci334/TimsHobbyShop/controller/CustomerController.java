@@ -12,8 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/Customer")
@@ -34,6 +35,8 @@ public class CustomerController {
     private CustomerSubjectInterest_Repository customerSubjectInterest_repository;
     @Autowired
     private CustomerModelInterest_Repository customerModelInterest_repository;
+    @Autowired
+    private ClubMember_Repository clubMember_repository;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String RenderCustomerPageById(@PathVariable(name = "id", value = "id") Long id, Model model) {
@@ -69,7 +72,12 @@ public class CustomerController {
     public String DeleteCustomer(@PathVariable(name = "cid", value = "cid") Long customerID, Model model) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
         if (optionalCustomer.isPresent()) {
-            customerRepository.delete(optionalCustomer.get());
+            Customer customer = optionalCustomer.get();
+            ClubMember clubMember = customer.getClubMembership();
+            if (clubMember != null) {
+                clubMember_repository.delete(clubMember);
+            }
+            customerRepository.delete(customer);
         }
         return "redirect:/Customer";
     }
@@ -107,7 +115,7 @@ public class CustomerController {
     @GetMapping(path="/Create")
     public String CreateCustomer(Model model) {
         model.addAttribute("title", "Edit Customer");
-        model.addAttribute("Area", "Other");
+        model.addAttribute("Area", "Customer");
         model.addAttribute("Sub_Page", "CustomerForm");
 
         if (!model.containsAttribute("customerForm")) {
@@ -138,22 +146,10 @@ public class CustomerController {
     @PostMapping("/Create")
     public String CreateCustomer(Model model, @Valid CustomerForm form, BindingResult bindingResult) {
         model.addAttribute("title", "Create Customer");
-        model.addAttribute("Area", "Other");
+        model.addAttribute("Area", "Customer");
         model.addAttribute("Sub_Page", "CustomerForm");
 
         if (bindingResult.hasErrors()) return CreateCustomer(model);
-
-        // Check password and confirm password match
-//        if (!form.getPassword().equals(form.getPasswordConfirm())) {
-//            bindingResult.addError(new FieldError("registerForm", "passwordConfirm",
-//                    "Password and ConfirmPassword must match"));
-//        }
-
-        // Check if username already exists in the database
-//        if (personRepository.findByUsername(form.getUsername()) != null) {
-//            bindingResult.addError(new FieldError("registerForm", "username",
-//                    "Username exists"));
-//        }
 
         // Save in database.
         Person person = new Person();
@@ -169,6 +165,10 @@ public class CustomerController {
                     person = optionalPerson.get();
                 }
             }
+        } else {
+            // Safety precaution incase a club member is defined
+            // in the customer create form.
+            customerRepository.save(customer);
         }
 
         person.setName(form.getName());
@@ -182,6 +182,21 @@ public class CustomerController {
         customer.setBalance(form.getBalance());
         customer.setCreditline(form.getCreditline());
         customer.setPerson(person);
+
+        // Update club member status.
+        ClubMember clubMember = customer.getClubMembership();
+        if (clubMember != null && form.getClubMember()) {
+            clubMember.setJoinDate(form.getClubMemeberJoinDate());
+        } else if (!form.getClubMember()) {
+            clubMember_repository.delete(clubMember);
+            customer.setClubMembership(null);
+        } else {
+            clubMember = new ClubMember();
+            clubMember.setMember(customer);
+            clubMember.setJoinDate(form.getClubMemeberJoinDate());
+            customer.setClubMembership(clubMember);
+            clubMember_repository.save(clubMember);
+        }
 
         // Update customer interests
         // Deletes old interests and adds new ones.

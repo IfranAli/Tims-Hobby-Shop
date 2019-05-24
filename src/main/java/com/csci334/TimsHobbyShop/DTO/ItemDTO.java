@@ -3,6 +3,15 @@ package com.csci334.TimsHobbyShop.DTO;
 import com.csci334.TimsHobbyShop.model.Item;
 
 public class ItemDTO {
+    private Long id;
+    private String name, description, availability;
+    private double retail_price;
+    private int stock;
+    private long storeId;
+    private String storeName;
+
+    public ItemDTO() {}
+
     public ItemDTO(Item i) {
         this.id = i.getId();
         this.name = i.getName();
@@ -10,14 +19,22 @@ public class ItemDTO {
         this.availability = i.getAvailability();
         this.retail_price = i.getRetailPrice();
         this.stock = i.getStock();
+        this.storeId = i.getStore().getId();
+        this.storeName = i.getStore().getName();
     }
-    public Long id;
-    public String name, description, availability;
-    public double retail_price;
-    public int stock;
 
-    public ItemDTO() {
+    public String getStoreName() {
+        return storeName;
+    }
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
 
+    public long getStoreId() {
+        return storeId;
+    }
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
     }
 
     public Long getId() {

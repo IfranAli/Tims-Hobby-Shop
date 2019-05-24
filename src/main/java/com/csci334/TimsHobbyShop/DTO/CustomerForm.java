@@ -2,20 +2,13 @@ package com.csci334.TimsHobbyShop.DTO;
 
 import com.csci334.TimsHobbyShop.model.*;
 import javax.validation.constraints.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CustomerForm {
-//    @NotNull @Size(min=2, max=30)
-//    private String username;
-//    @NotNull @Size(min=2, max=30)
-//    private String password;
-//    @NotNull @Size(min=2, max=30)
-//    private String passwordConfirm;
-//    @NotNull @Size(min=2, max=30)
-
     @NotNull @Size(min=2, max=30)
     private String name;
     private String email;
@@ -25,6 +18,9 @@ public class CustomerForm {
     private Long customerID;
     @NotNull @Min(0)
     private double balance = 0;
+
+    private Boolean isClubMember = false;
+    private Date clubMemeberJoinDate = new java.sql.Date(new java.util.Date().getTime());;
 
     private List<CustomerModelInterestDTO> modelNames = new ArrayList<>();
     private List<CustomerSubjectInterestDTO> subjectAreaNames = new ArrayList<>();
@@ -39,6 +35,12 @@ public class CustomerForm {
 		this.setCreditline(customer.getCreditline());
 		this.setEmail(customer.getPerson().getEmail());
 		this.setPhone(customer.getPerson().getPhone());
+
+		ClubMember clubMember = customer.getClubMembership();
+		if (clubMember != null) {
+		    this.setClubMember(true);
+		    this.setClubMemeberJoinDate(clubMember.getJoinDate());
+        }
 	}
 
 
@@ -54,6 +56,20 @@ public class CustomerForm {
     }
     public void setSubjectAreaNames(List<CustomerSubjectInterestDTO> subjectAreaNames) {
         this.subjectAreaNames = subjectAreaNames;
+    }
+
+    public Boolean getClubMember() {
+        return isClubMember;
+    }
+    public void setClubMember(Boolean clubMember) {
+        isClubMember = clubMember;
+    }
+
+    public Date getClubMemeberJoinDate() {
+        return clubMemeberJoinDate;
+    }
+    public void setClubMemeberJoinDate(Date clubMemeberJoinDate) {
+        this.clubMemeberJoinDate = clubMemeberJoinDate;
     }
 
     public Long getCustomerID() {

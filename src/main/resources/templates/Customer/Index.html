@@ -26,6 +26,7 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Total Sales</th>
+                <th>ClubMember</th>
                 <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
@@ -37,6 +38,8 @@
                 </td>
                 <td th:text="*{Address}"></td>
                 <td th:text="*{#lists.size(sales)}"></td>
+                <td th:if="*{clubMembership}">Yes</td>
+                <td th:unless="*{clubMembership}">No</td>
                 <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{/Customer/{id}(id=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{/Customer/{id}/Edit(id=*{id})}">Edit</a>
@@ -46,8 +49,4 @@
             </tbody>
         </table>
     </div>
-
-    <script th:inline="javascript">
-        var customers = [[${customers}]];
-    </script>
 </div>

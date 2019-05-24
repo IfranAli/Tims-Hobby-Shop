@@ -24,8 +24,11 @@
                     <dt class="col-sm-3">Sale ID:</dt>
                     <dd class="col-sm-9" th:text="${sale.id}"></dd>
 
+                    <dt class="col-sm-3">Discount:</dt>
+                    <dd class="col-sm-9" th:text="${'$' + sale.discount}"></dd>
+
                     <dt class="col-sm-3">Order Total:</dt>
-                    <dd class="col-sm-9" th:text="${sale.total}"></dd>
+                    <dd class="col-sm-9" th:text="${'$' + sale.total}"></dd>
 
                     <dt class="col-sm-3">Order Status:</dt>
                     <dd class="col-sm-9" th:text="${sale.status}"></dd>
