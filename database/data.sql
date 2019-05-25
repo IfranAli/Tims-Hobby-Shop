@@ -430,3 +430,4 @@ INSERT INTO `sale_line_item` (`id`, `quantity`, `sale_price`, `fk_item_id`, `fk_
 
 INSERT INTO `person` (`id`, `email`, `name`, `password`, `phone`, `role`, `username`) VALUES (NULL, 'ifran@uow.edu', 'ifran ali', 'pp', '123', 'ADMIN', 'ifran');
 INSERT INTO `person` (`id`, `email`, `name`, `password`, `phone`, `role`, `username`) VALUES (NULL, 'patterns@design.com', 'mark patterns', 'pp', '12341234', 'EMPLOYEE', 'markus');
+update person p set p.role = 'CONTACT' where p.id in ( select c.id from contact_person c);
