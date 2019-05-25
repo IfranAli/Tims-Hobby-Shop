@@ -35,21 +35,27 @@
 	<div class="card">
 		<div class="card-header">Contact Person</div>
 		<div class="card-body">
-			<div th:if="${supplier.contactPerson}" th:object="${supplier.contactPerson.person}">
-				<dl class="row">
-					<dt class="col-sm-3">Name:</dt>
-					<dd class="col-sm-9" th:text="*{name}"></dd>
-
-					<dt class="col-sm-3">Phone:</dt>
-					<dd class="col-sm-9" th:text="*{phone}"></dd>
-
-					<dt class="col-sm-3">Email:</dt>
-					<dd class="col-sm-9" th:text="*{email}"></dd>
-				</dl>
-			</div>
-			<div th:unless="${supplier.contactPerson}">
-				<h5 class="card-title">No contact person</h5>
-			</div>
+			<table class="table table-sm table-bordered">
+				<thead class="thead-light">
+				<tr>
+					<th>Name</th>
+					<th>Phone</th>
+					<th>Email</th>
+					<th class="shrinkcell">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each=" c : ${supplier.contactPerson}" th:object="${c}">
+					<td th:text="*{person.name}"></td>
+					<td th:text="*{person.phone}"></td>
+					<td th:text="*{person.email}"></td>
+					<td class="text-nowrap float-right">
+						<a class="btn-sm btn-secondary" th:href="@{/ContactPerson/{id}/Edit(id=*{id})}">Edit</a>
+						<a class="btn-sm btn-danger" th:href="@{/ContactPerson/{id}/Delete(id=*{id})}">Delete</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 

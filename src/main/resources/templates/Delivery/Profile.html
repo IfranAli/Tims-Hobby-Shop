@@ -1,0 +1,89 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Profile">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-sm">
+					Delivery Information
+				</div>
+				<div class="col-sm">
+					<ul class="nav float-right">
+						<li class="nav-item">
+							<a class="btn-sm btn-secondary" th:href="@{/Delivery/{id}/Edit(id=*{id})}">Edit Delivery</a>
+						</li>
+						<li class="nav-item">
+							<a class="btn-sm btn-danger" th:href="@{/Delivery/{id}/Delete(id=*{id})}">Delete Delivery</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<dl class="row" th:object="${delivery}">
+				<dt class="col-sm-3">Delivering Company Name:</dt>
+				<dd class="col-sm-9" th:text="*{supplier.companyName}"></dd>
+
+				<dt class="col-sm-3">Delivery To:</dt>
+				<dd class="col-sm-9" th:text="*{store.name}"></dd>
+
+				<dt class="col-sm-3">Delivery Date:</dt>
+				<dd class="col-sm-9" th:text="*{deliveryDate}"></dd>
+
+				<dt class="col-sm-3">Total:</dt>
+				<dd class="col-sm-9" th:text="${'$' + total}"></dd>
+			</dl>
+		</div>
+	</div>
+
+	<br>
+	<div class="card">
+		<div class="card-header">Contact Person</div>
+		<div class="card-body">
+			<dl class="row" th:object="${delivery.contactPerson}">
+				<dt class="col-sm-3">Name:</dt>
+				<dd class="col-sm-9" th:text="*{person.name}"></dd>
+
+				<dt class="col-sm-3">Phone:</dt>
+				<dd class="col-sm-9" th:text="*{person.phone}"></dd>
+
+				<dt class="col-sm-3">Email:</dt>
+				<dd class="col-sm-9" th:text="*{person.email}"></dd>
+			</dl>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="card">
+		<div class="card-header">Delivery Items</div>
+		<div class="card-body">
+			<table class="table table-sm table-bordered">
+				<thead class="thead-light">
+				<tr>
+					<!--<th class="shrinkcell">ID</th>-->
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>quantity</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="s : *{delivery.deliveryItems}" th:object="${s}">
+					<!--th:href="@{/Item/{id}(id=*{supplierItem.suppliedItem.id})}"-->
+					<td>
+						<a th:href="@{/Item/{id}(id=*{supplierItem.suppliedItem.id})}" th:text="*{supplierItem.suppliedItem.name}"></a>
+					</td>
+					<td th:text="*{supplierItem.suppliedItem.name}"/></td>
+					<td th:text="*{supplierItem.suppliedItem.description}" /></td>
+					<td th:text="*{price}"/></td>
+					<td th:text="*{quantity}"/></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!--<script th:inline="javascript">-->
+        <!--var supplier = [[${supplier}]];-->
+	<!--</script>-->
+</div>

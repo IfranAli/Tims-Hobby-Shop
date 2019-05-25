@@ -1,3 +1,103 @@
-<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Dashboard">
-    <h3>THE DASHBOARD</h3>
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     th:fragment="Dashboard">
+
+    <div class="row" sec:authorize="isAuthenticated()">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Stores</h5>
+                    <p class="card-text">Manage stores and store related information such as store name and address</p>
+                    <a href="/Store" class="btn btn-primary">Manage Stores</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Supplier Catalogues</h5>
+                    <p class="card-text">Manage, update, delete, and view supplier catalogues and their catalogue items</p>
+                    <a href="/Catalogue" class="btn btn-primary">Manage Supplier Catalogues</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Item Suppliers</h5>
+                    <p class="card-text">View, Add, Update, Delete suppliers and their related information, as well as their contact persons.</p>
+                    <a href="/Supplier" class="btn btn-primary">Manage Item Suppliers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Customers</h5>
+                    <p class="card-text">View, Add, Update, Delete Customers, their information, and Club Membership status</p>
+                    <a href="/Customer" class="btn btn-primary">Manage Customers</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Items</h5>
+                    <p class="card-text">View, Add, Update, Delete Items and their related information such as sale price and stock, and restock options</p>
+                    <a href="/Item" class="btn btn-primary">Manage Items</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sales</h5>
+                    <p class="card-text">View, Add, Update, Delete, customer sales and their related information such as sale-line-items, and discounts</p>
+                    <a href="/Sale" class="btn btn-primary">Manage Sales</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Persons</h5>
+                    <p class="card-text">View, Add, Update, Delete, Contact Persons their related information</p>
+                    <a href="/ContactPerson" class="btn btn-primary">Manage Contact Persons</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Delivery</h5>
+                    <p class="card-text">View, Add, Update, Delete, Supplier Deliveries and their related information</p>
+                    <a href="/Delivery" class="btn btn-primary">Manage Deliveries</a>
+                </div>
+            </div>
+        </div>
+
+         <!--Admin only sections -->
+        <div class="col-sm-4" sec:authorize="hasAuthority('ADMIN')">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Employee</h5>
+                    <p class="card-text">View, Add, Update, Delete, Employee, their related information, access roles, and assigned store</p>
+                    <a href="/Employee" class="btn btn-primary">Manage Employees</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4" sec:authorize="hasAuthority('ADMIN')">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Generate Reports</h5>
+                    <p class="card-text">Generate Reports such as sales statistics over a date period, and item related statistics</p>
+                    <a href="/Employee" class="btn btn-primary">Generate Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

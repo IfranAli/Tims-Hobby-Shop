@@ -33,10 +33,10 @@ public class Supplier{
 
     }
 
-    public ContactPerson getContactPerson() {
+    public List<ContactPerson> getContactPerson() {
         return contactPerson;
     }
-    public void setContactPerson(ContactPerson contactPerson) {
+    public void setContactPerson(List<ContactPerson> contactPerson) {
         this.contactPerson = contactPerson;
     }
 
@@ -44,6 +44,9 @@ public class Supplier{
     @JsonBackReference
     private List<Catalogue> catalogues;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "supplier")
-    private ContactPerson contactPerson;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
+    private List<ContactPerson> contactPerson;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
+//    private List<Delivery> deliveries;
 }

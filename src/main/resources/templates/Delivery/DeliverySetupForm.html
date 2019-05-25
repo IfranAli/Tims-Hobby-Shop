@@ -1,0 +1,75 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="DeliverySetupForm">
+    <form action="#" th:action="@{/Delivery/CreateSetup}" th:object="${deliveryForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Delivery ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Supplier</label>
+            <select onchange="updateContactPerson()" th:field="*{supplierId}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('supplierId')} ? is-invalid : is-valid">
+                <option th:each="p : ${suppliers}" th:value="${p.id}" th:text="${p.companyName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('supplierId')}" th:errors="*{supplierId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Contact Person</label>
+            <select th:field="*{contactPersonId}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('contactPersonId')} ? is-invalid : is-valid">
+                <option th:each="p : ${contactPersons}" th:value="${p.id}" th:text="${p.person.name + ' ' + p.supplier.companyName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('supplierId')}" th:errors="*{supplierId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Delivery for store</label>
+            <select th:field="*{storeId}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('storeId')} ? is-invalid : is-valid">
+                <option th:each="p : ${stores}" th:value="${p.id}" th:text="${p.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Delivery Date</label>
+            <input th:field="*{deliveryDate}" type="date" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('deliveryDate')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('deliveryDate')}" th:errors="*{deliveryDate}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Total</label>
+            <input readonly th:field="*{total}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('total')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('total')}" th:errors="*{total}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Status</label>
+            <input th:field="*{status}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('status')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <script th:inline="javascript">
+        var suppliers = [[${suppliers}]]
+        var contactSelector = $("select[name='contactPersonId']")[0];
+
+        function updateContactPerson() {
+            var c = suppliers[$("select[name='supplierId']")[0].value - 1].contactPerson;
+            $("select[name='contactPersonId'] option").remove();
+
+            var data = "";
+            for (var i=0; i < c.length; i++) {
+                data += "<option value='" + c[i].id + "'>" + c[i].person.name + "</option>";
+            }
+            contactSelector.innerHTML = data.trim();
+        }
+
+        $("document").ready(function () {
+            updateContactPerson();
+        })
+    </script>
+
+</div>

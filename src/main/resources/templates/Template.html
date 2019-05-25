@@ -44,32 +44,28 @@
 </footer>
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/Dashboard">
         <img src="/img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
         Tim's Hobby Shop
     </a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <!--<li class="nav-item active"><a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a></li>-->
+        <ul class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
             <li class="nav-item"><a class="nav-link" href="/Store">Stores</a></li>
             <li class="nav-item"><a class="nav-link" href="/Catalogue">Catalogues</a></li>
             <li class="nav-item"><a class="nav-link" href="/Supplier">Suppliers</a></li>
             <li class="nav-item"><a class="nav-link" href="/Customer">Customers</a></li>
             <li class="nav-item"><a class="nav-link" href="/Item">Items</a></li>
             <li class="nav-item"><a class="nav-link" href="/Sale">Sales</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Employee">Employees</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Employee" sec:authorize="hasAuthority('ADMIN')">Employees</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Dashboard">Dashboard</a></li>
 
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span sec:authentication="name"></span>
+                    [<span sec:authentication="name"></span>]
                     <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/User/settings/username">Settings</a>
-                    <a class="dropdown-item" href="#">Other</a>
-                    <a sec:authorize="hasAuthority('ADMIN')" class="dropdown-item" href="/Admin/dashboard">Admin Dashboard</a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/Logout">Logout</a>
                 </div>
             </li>

@@ -45,6 +45,16 @@ public class Store{
         this.store_items = store_items;
     }
 
+    public List<Delivery> getDeliveries() {
+        return deliveries;
+    }
+    public void setDeliveries(List<Delivery> deliveries) {
+        this.deliveries = deliveries;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL) @JsonIgnore
     private List<Item> store_items;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL) @JsonIgnore
+    private List<Delivery> deliveries;
 }

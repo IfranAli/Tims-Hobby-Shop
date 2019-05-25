@@ -1,0 +1,54 @@
+<div th:switch="${contactPersons}" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Index">
+    <h2 th:case="null">No ContactPersons yet!</h2>
+    <div th:case="*">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group mr-2" role="group">
+                <a class="btn btn-primary" href="/ContactPerson/Create">Create ContactPerson</a>
+            </div>
+
+            <div class="btn-group mr-2 ml-auto" role="group">
+                <form action="/ContactPerson">
+                    <div class="input-group" role="group">
+                        <div class="input-group-text input-group-append">Search</div>
+                        <input name="query" type="text" class="form-control" placeholder="name" th:value="${query}">
+                        <a class="btn btn-primary input-group-append" href="/ContactPerson" th:if="${query}">Clear</a>
+                        <button type="submit" class="btn btn-default d-none">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+
+        <table class="table table-striped table-bordered table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th class="shrinkcell">ID</th>
+                <th>Name</th>
+				<th>email</th>
+				<th>phone</th>
+				<th>supplier</th>
+                <th class="shrinkcell">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${contactPersons}" th:object="${c}">
+				<td th:text="*{id}"></td>
+				<td th:text="*{person.name}"></td>
+				<td th:text="*{person.email}"></td>
+				<td th:text="*{person.phone}"></td>
+                <td>
+                    <a th:href="@{/Supplier/{id}(id=*{supplier.id})}" th:text="*{supplier.companyName}"></a>
+                </td>
+                <td class="float-right text-nowrap">
+                    <a class="btn-sm btn-secondary" th:href="@{/ContactPerson/{id}/Edit(id=*{id})}">Edit</a>
+                    <a class="btn-sm btn-danger" th:href="@{/ContactPerson/{id}/Delete(id=*{id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:inline="javascript">
+        var contactPersons = [[${contactPersons}]];
+    </script>
+</div>

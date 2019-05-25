@@ -1,0 +1,47 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="ContactPersonForm">
+    <form action="#" th:action="@{/ContactPerson/Create}" th:object="${contactPersonForm}" method="post" novalidate>
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">ContactPerson ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Person ID</label>
+            <input th:field="*{personId}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('personId')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('personId')}" th:errors="*{personId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Contact For Supplier</label>
+            <select th:field="*{supplerId}" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('supplerId')} ? is-invalid : is-valid">
+                <option th:each="p : ${suppliers}" th:value="${p.id}" th:text="${p.companyName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('supplerId')}" th:errors="*{supplerId}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <input th:field="*{name}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('name')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email</label>
+            <input th:field="*{email}" type="email" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('email')} ? is-invalid : is-valid" placeholder="name@example.com">
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Phone</label>
+            <input th:field="*{phone}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('phone')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+	<script th:inline="javascript">
+		var contactPersonForm = [[${contactPersonForm}]];
+	</script>
+</div>
