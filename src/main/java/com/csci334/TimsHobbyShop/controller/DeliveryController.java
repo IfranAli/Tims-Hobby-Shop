@@ -67,7 +67,8 @@ public class DeliveryController {
     public String DeleteDelivery(@PathVariable(name = "cid", value = "cid") Long deliveryID, Model model) {
         Optional<Delivery> optional = delivery_Repository.findById(deliveryID);
         if (optional.isPresent()) {
-            delivery_Repository.delete(optional.get());
+            Delivery delivery = optional.get();
+            delivery_Repository.delete(delivery);
         }
         return "redirect:/Delivery";
     }
