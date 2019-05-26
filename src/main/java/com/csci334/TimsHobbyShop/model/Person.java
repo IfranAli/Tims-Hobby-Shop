@@ -14,6 +14,10 @@ public class Person {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String username, password, name, email, phone, role;
+    private String address;
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }

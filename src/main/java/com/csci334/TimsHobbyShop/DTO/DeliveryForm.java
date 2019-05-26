@@ -16,7 +16,7 @@ public class DeliveryForm {
     @NotNull
     private Long storeId;
     @NotNull @Size(min=2, max=30)
-    private String status;
+    private String status = "Initiated";
     @NotNull
     private Date deliveryDate = new java.sql.Date(new java.util.Date().getTime());
 

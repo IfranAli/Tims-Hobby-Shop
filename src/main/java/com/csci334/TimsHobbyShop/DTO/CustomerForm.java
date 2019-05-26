@@ -27,21 +27,21 @@ public class CustomerForm {
 
     public CustomerForm() {}
 
-    public void FromEntity(Customer customer) {
-		this.setCustomerID(customer.getId());
-		this.setName(customer.getPerson().getName());
-		this.setAddress(customer.getAddress());
-		this.setBalance(customer.getBalance());
-		this.setCreditline(customer.getCreditline());
-		this.setEmail(customer.getPerson().getEmail());
-		this.setPhone(customer.getPerson().getPhone());
+    public CustomerForm(Customer customer) {
+        this.setCustomerID(customer.getId());
+        this.setName(customer.getPerson().getName());
+        this.setBalance(customer.getBalance());
+        this.setCreditline(customer.getCreditline());
+        this.setEmail(customer.getPerson().getEmail());
+        this.setPhone(customer.getPerson().getPhone());
+        this.setAddress(customer.getPerson().getAddress());
 
-		ClubMember clubMember = customer.getClubMembership();
-		if (clubMember != null) {
-		    this.setClubMember(true);
-		    this.setClubMemeberJoinDate(clubMember.getJoinDate());
+        ClubMember clubMember = customer.getClubMembership();
+        if (clubMember != null) {
+            this.setClubMember(true);
+            this.setClubMemeberJoinDate(clubMember.getJoinDate());
         }
-	}
+    }
 
 
     public List<CustomerModelInterestDTO> getModelNames() {

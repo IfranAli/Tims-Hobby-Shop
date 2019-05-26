@@ -57,6 +57,7 @@
 					<th>Company Name</th>
 					<th>Address</th>
 					<th>Supplier Price</th>
+					<th class="shrinkcell">Actions</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -66,6 +67,9 @@
 					</td>
 					<td th:text="${s.catalogue.supplier.address}"></td>
 					<td th:text="${'$' + s.price}"></td>
+					<td class="float-right text-nowrap">
+						<a class="btn-sm btn-primary" th:href="@{/Catalogue/{id}(id=*{s.catalogue.id})}">View</a>
+					</td>
 				</tr>
 				</tbody>
 			</table>

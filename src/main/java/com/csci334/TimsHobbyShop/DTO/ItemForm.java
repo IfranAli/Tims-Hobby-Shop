@@ -11,7 +11,8 @@ public class ItemForm {
     private Long id;
     private String description;
     @NotNull @Size(min=2, max=30)
-    private String name, availability;
+    private String name;
+    private String availability = "IN STOCK";
     @NotNull @Min(0)
     private int stock;
     @NotNull @Min(1)

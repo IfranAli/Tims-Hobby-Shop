@@ -6,7 +6,7 @@
                 <a class="btn btn-primary" href="/Item/Create">Create Item</a>
             </div>
 
-            <div class="btn-group mr-2 ml-auto" role="group">
+            <div class="btn-group mr-2 ml-auto d-none" role="group">
                 <form action="/Item">
                     <div class="input-group" role="group">
                         <div class="input-group-text input-group-append">Search</div>
@@ -26,7 +26,7 @@
                 <th>Description</th>
                 <th class="text-nowrap">Retail Price</th>
                 <th>Availability</th>
-                <th>Store ID</th>
+                <th>Store</th>
                 <th>Stock</th>
                 <th class="shrinkcell">Actions</th>
             </tr>
@@ -39,7 +39,7 @@
                 <td th:text="*{description}"></td>
                 <td th:text="*{'$' + retailPrice}"></td>
                 <td th:text="${item.availability}"></td>
-                <td th:text="*{store.id}"></td>
+                <td th:text="*{store.name}"></td>
                 <td th:text="*{stock}"></td>
                 <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{Item/{id}(id=*{id})}">View</a>

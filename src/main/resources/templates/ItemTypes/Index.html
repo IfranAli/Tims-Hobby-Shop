@@ -1,0 +1,80 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="Index">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm">
+                    Model Types
+                </div>
+                <div class="col-sm">
+                    <ul class="nav float-right">
+                        <li class="nav-item">
+                            <a class="btn-sm btn-secondary" th:href="@{/ItemType/ModelType/Create}">Add ModelType</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="shrinkcell">ID</th>
+                    <th>Name</th>
+                    <th class="shrinkcell">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${modelTypes}">
+                    <td th:text="${s.id}"></td>
+                    <td th:text="${s.name}"></td>
+                    <td class="float-right text-nowrap">
+                        <a class="btn-sm btn-primary" th:href="@{/ItemType/ModelType/{id}/Edit(id=*{s.id})}">Edit</a>
+                        <a class="btn-sm btn-primary" th:unless="${#lists.size(s.items)}" th:href="@{/ItemType/ModelType/{id}/Delete(id=*{s.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm">
+                    Subject Areas
+                </div>
+                <div class="col-sm">
+                    <ul class="nav float-right">
+                        <li class="nav-item">
+                            <a class="btn-sm btn-secondary" th:href="@{/ItemType/SubjectArea/Create}">Add SubjectArea</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="shrinkcell">ID</th>
+                    <th>Name</th>
+                    <th class="shrinkcell">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${subjectAreas}">
+                    <td th:text="${s.id}"></td>
+                    <td th:text="${s.name}"></td>
+                    <td class="float-right text-nowrap">
+                        <a class="btn-sm btn-primary" th:href="@{/ItemType/SubjectArea/{id}/Edit(id=*{s.id})}">Edit</a>
+                        <a class="btn-sm btn-primary" th:unless="${#lists.size(s.items)}" th:href="@{/ItemType/SubjectArea/{id}/Delete(id=*{s.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

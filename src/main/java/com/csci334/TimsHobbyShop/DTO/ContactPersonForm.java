@@ -17,6 +17,7 @@ public class ContactPersonForm {
     private Long id;
     private Long personId;
     private String email, phone;
+    private String address;
 
     public ContactPersonForm() {}
     public ContactPersonForm(ContactPerson c) {
@@ -27,6 +28,14 @@ public class ContactPersonForm {
         name = p.getName();
         email = p.getEmail();
         phone = p.getPhone();
+        address = p.getAddress();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Long getId() {

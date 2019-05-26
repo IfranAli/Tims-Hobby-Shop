@@ -80,24 +80,34 @@
             </div>
         </div>
 
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Model Type Preferences</h5>
+                    <p class="card-text">View, Add, Update, Delete, new model types and subject areas</p>
+                    <a href="/ItemType" class="btn btn-primary">Manage Model Type Preferences</a>
+                </div>
+            </div>
+        </div>
+
          <!--Admin only sections -->
         <div class="col-sm-4" sec:authorize="hasAuthority('ADMIN')">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Employee</h5>
-                    <p class="card-text">View, Add, Update, Delete, Employee, their related information, access roles, and assigned store</p>
+                    <p class="card-text">View, Add, Update, Delete, Employee, their related information, and access roles.</p>
                     <a href="/Employee" class="btn btn-primary">Manage Employees</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4" sec:authorize="hasAuthority('ADMIN')">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Generate Reports</h5>
-                    <p class="card-text">Generate Reports such as sales statistics over a date period, and item related statistics</p>
-                    <a href="/Employee" class="btn btn-primary">Generate Reports</a>
-                </div>
-            </div>
-        </div>
+        <!--<div class="col-sm-4" sec:authorize="hasAuthority('ADMIN')">-->
+            <!--<div class="card">-->
+                <!--<div class="card-body">-->
+                    <!--<h5 class="card-title">Generate Reports</h5>-->
+                    <!--<p class="card-text">Generate Reports such as sales statistics over a date period, and item related statistics</p>-->
+                    <!--<a href="/Employee" class="btn btn-primary">Generate Reports</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>

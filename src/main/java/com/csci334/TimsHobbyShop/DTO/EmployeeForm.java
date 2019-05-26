@@ -16,7 +16,7 @@ public class EmployeeForm {
     private String name;
     private String email;
     private String phone;
-//    private String address;
+    private String address;
     private Long employeeID;
     @NotNull
     private String role;
@@ -37,7 +37,14 @@ public class EmployeeForm {
         this.setPasswordConfirm(p.getPassword());
         this.setRole(p.getRole());
         this.setUsername(p.getUsername());
-//		this.setAddress(p.getAddress());
+		this.setAddress(p.getAddress());
+    }
+
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getName() {

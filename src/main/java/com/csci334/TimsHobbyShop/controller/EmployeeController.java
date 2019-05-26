@@ -126,6 +126,7 @@ public class EmployeeController {
         person.setPassword(form.getPassword());
         person.setEmail(form.getEmail());
         person.setPhone(form.getPhone());
+        person.setAddress(form.getAddress());
         person.setRole(form.getRole());
         personRepository.save(person);
 

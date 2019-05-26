@@ -18,6 +18,11 @@ public interface CustomerSubjectInterest_Repository extends CrudRepository<Custo
     @Query(value = "select si.fk_customer_id as customerID, s.id as subjectAreaID, s.name as subjectAreaName from customer_subject_interest si right join subject_area s on si.fk_subject_area_id = s.id and si.fk_customer_id = :id", nativeQuery = true)
     List<CustomerSubjectInterestInterface> getCustomerSubjectInterestById(@Param("id") Long id);
 
+    @Transactional
+    @Modifying
+    @Query(value = "delete from customer_subject_interest where fk_subject_area_id = :id", nativeQuery = true)
+    void deleteCustomerSubjectAreaBySubjectAreaID(@Param("id") Long id);
+
     public static interface CustomerSubjectInterestInterface {
         Long getCustomerID();
         Long getSubjectAreaID();

@@ -6,7 +6,7 @@
                 <a class="btn btn-primary" href="/ContactPerson/Create">Create ContactPerson</a>
             </div>
 
-            <div class="btn-group mr-2 ml-auto" role="group">
+            <div class="btn-group mr-2 ml-auto d-none" role="group">
                 <form action="/ContactPerson">
                     <div class="input-group" role="group">
                         <div class="input-group-text input-group-append">Search</div>
@@ -26,6 +26,7 @@
                 <th>Name</th>
 				<th>email</th>
 				<th>phone</th>
+				<th>Address</th>
 				<th>supplier</th>
                 <th class="shrinkcell">Actions</th>
             </tr>
@@ -36,6 +37,7 @@
 				<td th:text="*{person.name}"></td>
 				<td th:text="*{person.email}"></td>
 				<td th:text="*{person.phone}"></td>
+				<td th:text="*{person.address}"></td>
                 <td>
                     <a th:href="@{/Supplier/{id}(id=*{supplier.id})}" th:text="*{supplier.companyName}"></a>
                 </td>

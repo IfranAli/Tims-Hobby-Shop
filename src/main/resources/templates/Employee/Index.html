@@ -6,7 +6,7 @@
                 <a class="btn btn-primary" href="/Employee/Create">Create Employee</a>
             </div>
 
-            <div class="btn-group mr-2 ml-auto" role="group">
+            <div class="btn-group mr-2 ml-auto d-none" role="group">
                 <form action="/Employee">
                     <div class="input-group" role="group">
                         <div class="input-group-text input-group-append">Search</div>
@@ -25,8 +25,8 @@
                 <th>ID</th>
                 <th>Name</th>
 				<th>Username</th>
-				<th>Role</th>
-				<!--<th>Store</th>-->
+                <th>Phone</th>
+                <th>Role</th>
                 <th class="shrinkcell">Actions</th>
             </tr>
             </thead>
@@ -37,8 +37,8 @@
                     <a th:href="@{/Employee/{id}(id=*{id})}" th:text="*{name}"></a>
                 </td>
 				<td th:text="*{username}"></td>
-				<td th:text="*{role}"></td>
-				<!--<td th:text="*{storeId}"></td>-->
+                <td th:text="*{phone}"></td>
+                <td th:text="*{role}"></td>
                 <td class="float-right text-nowrap">
                     <a class="btn-sm btn-primary" th:href="@{/Employee/{id}(id=*{id})}">View</a>
                     <a class="btn-sm btn-secondary" th:href="@{/Employee/{id}/Edit(id=*{id})}">Edit</a>

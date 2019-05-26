@@ -41,6 +41,7 @@
 					<th>Name</th>
 					<th>Phone</th>
 					<th>Email</th>
+					<th>Address</th>
 					<th class="shrinkcell">Actions</th>
 				</tr>
 				</thead>
@@ -49,6 +50,7 @@
 					<td th:text="*{person.name}"></td>
 					<td th:text="*{person.phone}"></td>
 					<td th:text="*{person.email}"></td>
+					<td th:text="*{person.address}"></td>
 					<td class="text-nowrap float-right">
 						<a class="btn-sm btn-secondary" th:href="@{/ContactPerson/{id}/Edit(id=*{id})}">Edit</a>
 						<a class="btn-sm btn-danger" th:href="@{/ContactPerson/{id}/Delete(id=*{id})}">Delete</a>

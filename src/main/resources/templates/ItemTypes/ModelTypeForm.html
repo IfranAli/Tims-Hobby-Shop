@@ -1,0 +1,19 @@
+<div xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="ModelTypeForm">
+    <form action="#" th:action="@{/ItemType/ModelType/Create}" th:object="${modelTypeForm}" method="post" novalidate>
+
+        <div class="form-group row d-none">
+            <label class="col-sm-2 col-form-label">Model Type ID</label>
+            <input th:field="*{id}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('id')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <input th:field="*{name}" type="text" class="form-control col-sm-10" th:classappend="${#fields.hasErrors('name')} ? is-invalid : is-valid">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

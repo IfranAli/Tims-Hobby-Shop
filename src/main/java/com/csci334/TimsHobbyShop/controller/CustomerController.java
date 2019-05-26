@@ -55,10 +55,9 @@ public class CustomerController {
 
     /* Returns all customers in the database */
     @RequestMapping(method = RequestMethod.GET)
-    public String getAll(@RequestParam(value = "query", required = false) String query, Model model) {
-        if(query != null && !query.isEmpty()) {
-            model.addAttribute("customers", customerRepository.searchByName(query));
-            model.addAttribute("query", query);
+    public String getAll(@RequestParam(value = "query", required = false) Long query, Model model) {
+        if(query != null) {
+            return RenderCustomerPageById(query, model);
         } else {
             model.addAttribute("customers", customerRepository.findAll());
         }
@@ -87,8 +86,7 @@ public class CustomerController {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
-            CustomerForm customerForm = new CustomerForm();
-			customerForm.FromEntity(customer);
+            CustomerForm customerForm = new CustomerForm(customer);
 
 			// Gather Customer model type interests
             List<CustomerModelInterestDTO> customerModelInterestDTOS = new ArrayList<>();
@@ -176,9 +174,9 @@ public class CustomerController {
 //        person.setPassword(form.getPassword());
         person.setEmail(form.getEmail());
         person.setPhone(form.getPhone());
+        person.setAddress(form.getAddress());
         personRepository.save(person);
 
-        customer.setAddress(form.getAddress());
         customer.setBalance(form.getBalance());
         customer.setCreditline(form.getCreditline());
         customer.setPerson(person);

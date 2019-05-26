@@ -23,7 +23,7 @@ public class Customer {
 	@JoinColumn(name = "clubMembership")
 	private ClubMember clubMembership;
 
-    private String address, creditline;
+    private String creditline;
 	private double balance;
 
     public Long getId() { return id; }
@@ -35,8 +35,7 @@ public class Customer {
     public double getBalance() { return balance; }
     public void setBalance(double balance) { this.balance = balance; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+
 
 	public Person getPerson() { return person; }
 	public void setPerson(Person person) { this.person = person; }
@@ -62,11 +61,8 @@ public class Customer {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL) @JsonIgnore
     private List<Sale> sales;
-    //@JsonManagedReference
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerWithSubjectInterest", cascade = CascadeType.ALL)
     private List<CustomerSubjectInterest> subjectAreaInterests;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerWithModelInterest", cascade = CascadeType.ALL)
     private List<CustomerModelInterest> modelTypeInterests;
 }

@@ -18,6 +18,11 @@ public interface CustomerModelInterest_Repository extends CrudRepository<Custome
     @Query(value = "select si.fk_customer_id as customerID, s.id as modelTypeID, s.name as modelTypeName from customer_model_interest si right join model_type s on si.fk_model_type_id = s.id and si.fk_customer_id = :id", nativeQuery = true)
     List<CustomerModelInterestInterface> getCustomerModelInterestById(@Param("id") Long id);
 
+    @Transactional
+    @Modifying
+    @Query(value = "delete from customer_model_interest where fk_model_type_id = :id", nativeQuery = true)
+    void deleteCustomerModelInterestByModelInterestID(@Param("id") Long id);
+
     public static interface CustomerModelInterestInterface {
         Long getCustomerID();
         Long getModelTypeID();

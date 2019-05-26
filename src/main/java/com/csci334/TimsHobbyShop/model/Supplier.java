@@ -46,7 +46,4 @@ public class Supplier{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
     private List<ContactPerson> contactPerson;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
-//    private List<Delivery> deliveries;
 }

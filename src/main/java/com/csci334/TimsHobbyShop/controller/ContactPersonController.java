@@ -116,6 +116,7 @@ public class ContactPersonController {
         person.setEmail(form.getEmail());
         person.setPhone(form.getPhone());
         person.setRole(form.getRole());
+        person.setAddress(form.getAddress());
         personRepository.save(person);
 
         contactPerson.setPerson(person);

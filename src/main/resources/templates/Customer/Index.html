@@ -9,8 +9,8 @@
             <div class="btn-group mr-2 ml-auto" role="group">
                 <form action="/Customer">
                     <div class="input-group" role="group">
-                        <div class="input-group-text input-group-append">Search</div>
-                        <input name="query" type="text" class="form-control" placeholder="name" th:value="${query}">
+                        <div class="input-group-text input-group-append">Search by ID</div>
+                        <input name="query" type="text" class="form-control" placeholder="ID" th:value="${query}">
                         <a class="btn btn-primary input-group-append" href="/Customer" th:if="${query}">Clear</a>
                         <button type="submit" class="btn btn-default d-none">Submit</button>
                     </div>
@@ -36,7 +36,7 @@
                 <td>
                     <a th:href="@{/Customer/{id}(id=*{id})}" th:text="*{person.name}"></a>
                 </td>
-                <td th:text="*{Address}"></td>
+                <td th:text="*{person.address}"></td>
                 <td th:text="*{#lists.size(sales)}"></td>
                 <td th:if="*{clubMembership}">Yes</td>
                 <td th:unless="*{clubMembership}">No</td>

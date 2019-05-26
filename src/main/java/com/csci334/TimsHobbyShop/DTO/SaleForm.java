@@ -13,7 +13,7 @@ public class SaleForm {
     @NotNull
     private Date sale_date;
     @NotNull
-    private String status;
+    private String status = "Processing";
     @NotNull @Min(0)
     private double discount;
 
